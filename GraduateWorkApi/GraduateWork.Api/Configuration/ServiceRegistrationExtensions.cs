@@ -1,17 +1,12 @@
-using GraduateWork.Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
+using GraduateWorkApi.Interfaces;
+using GraduateWorkApi.Services;
 
 namespace GraduateWorkApi.Configuration;
 
 public static class ServiceRegistrationExtensions
 {
-    public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
+    public static void RegisterServices(this IServiceCollection services)
     {
-        return services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseSqlServer(configuration.GetConnectionString("Default"));
-                options.UseOpenIddict();
-            }
-        );
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
     }
 }

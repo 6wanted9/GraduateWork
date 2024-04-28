@@ -446,6 +446,15 @@
           }
         }
       },
+      "Microsoft.CSharp/4.5.0": {
+        "type": "package",
+        "compile": {
+          "ref/netcoreapp2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.0/_._": {}
+        }
+      },
       "Microsoft.Data.SqlClient/2.1.7": {
         "type": "package",
         "dependencies": {
@@ -943,19 +952,6 @@
           }
         }
       },
-      "Microsoft.IdentityModel.Abstractions/7.4.1": {
-        "type": "package",
-        "compile": {
-          "lib/net6.0/Microsoft.IdentityModel.Abstractions.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/Microsoft.IdentityModel.Abstractions.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "Microsoft.IdentityModel.JsonWebTokens/6.12.1": {
         "type": "package",
         "dependencies": {
@@ -972,18 +968,15 @@
           }
         }
       },
-      "Microsoft.IdentityModel.Logging/7.4.1": {
+      "Microsoft.IdentityModel.Logging/6.12.1": {
         "type": "package",
-        "dependencies": {
-          "Microsoft.IdentityModel.Abstractions": "7.4.1"
-        },
         "compile": {
-          "lib/net6.0/Microsoft.IdentityModel.Logging.dll": {
+          "lib/netstandard2.0/Microsoft.IdentityModel.Logging.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net6.0/Microsoft.IdentityModel.Logging.dll": {
+          "lib/netstandard2.0/Microsoft.IdentityModel.Logging.dll": {
             "related": ".xml"
           }
         }
@@ -1022,18 +1015,20 @@
           }
         }
       },
-      "Microsoft.IdentityModel.Tokens/7.4.1": {
+      "Microsoft.IdentityModel.Tokens/6.12.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.IdentityModel.Logging": "7.4.1"
+          "Microsoft.CSharp": "4.5.0",
+          "Microsoft.IdentityModel.Logging": "6.12.1",
+          "System.Security.Cryptography.Cng": "4.5.0"
         },
         "compile": {
-          "lib/net6.0/Microsoft.IdentityModel.Tokens.dll": {
+          "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net6.0/Microsoft.IdentityModel.Tokens.dll": {
+          "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.dll": {
             "related": ".xml"
           }
         }
@@ -1123,74 +1118,6 @@
           "runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.dll": {
             "assetType": "runtime",
             "rid": "win"
-          }
-        }
-      },
-      "OpenIddict.Abstractions/5.5.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
-          "Microsoft.Extensions.Primitives": "6.0.0",
-          "Microsoft.IdentityModel.Tokens": "7.4.1"
-        },
-        "compile": {
-          "lib/net6.0/OpenIddict.Abstractions.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/OpenIddict.Abstractions.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "OpenIddict.Core/5.5.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.Caching.Memory": "6.0.1",
-          "Microsoft.Extensions.Logging": "6.0.0",
-          "Microsoft.Extensions.Options": "6.0.0",
-          "OpenIddict.Abstractions": "5.5.0"
-        },
-        "compile": {
-          "lib/net6.0/OpenIddict.Core.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/OpenIddict.Core.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "OpenIddict.EntityFrameworkCore/5.5.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.EntityFrameworkCore.Relational": "6.0.28",
-          "OpenIddict.Core": "5.5.0",
-          "OpenIddict.EntityFrameworkCore.Models": "5.5.0"
-        },
-        "compile": {
-          "lib/net6.0/OpenIddict.EntityFrameworkCore.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/OpenIddict.EntityFrameworkCore.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "OpenIddict.EntityFrameworkCore.Models/5.5.0": {
-        "type": "package",
-        "compile": {
-          "lib/net6.0/OpenIddict.EntityFrameworkCore.Models.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/OpenIddict.EntityFrameworkCore.Models.dll": {
-            "related": ".xml"
           }
         }
       },
@@ -1445,7 +1372,7 @@
       "System.Security.Cryptography.Cng/4.5.0": {
         "type": "package",
         "compile": {
-          "ref/netcoreapp2.1/_._": {
+          "ref/netcoreapp2.1/System.Security.Cryptography.Cng.dll": {
             "related": ".xml"
           }
         },
@@ -2018,6 +1945,74 @@
         "ref/net461/Microsoft.Bcl.AsyncInterfaces.dll",
         "ref/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll",
         "ref/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "Microsoft.CSharp/4.5.0": {
+      "sha512": "kaj6Wb4qoMuH3HySFJhxwQfe8R/sJsNJnANrvv8WdFPMoNbKY5htfNscv+LHCu5ipz+49m2e+WQXpLXr9XYemQ==",
+      "type": "package",
+      "path": "microsoft.csharp/4.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net45/_._",
+        "lib/netcore50/Microsoft.CSharp.dll",
+        "lib/netcoreapp2.0/_._",
+        "lib/netstandard1.3/Microsoft.CSharp.dll",
+        "lib/netstandard2.0/Microsoft.CSharp.dll",
+        "lib/portable-net45+win8+wp8+wpa81/_._",
+        "lib/uap10.0.16299/_._",
+        "lib/win8/_._",
+        "lib/wp80/_._",
+        "lib/wpa81/_._",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "microsoft.csharp.4.5.0.nupkg.sha512",
+        "microsoft.csharp.nuspec",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net45/_._",
+        "ref/netcore50/Microsoft.CSharp.dll",
+        "ref/netcore50/Microsoft.CSharp.xml",
+        "ref/netcore50/de/Microsoft.CSharp.xml",
+        "ref/netcore50/es/Microsoft.CSharp.xml",
+        "ref/netcore50/fr/Microsoft.CSharp.xml",
+        "ref/netcore50/it/Microsoft.CSharp.xml",
+        "ref/netcore50/ja/Microsoft.CSharp.xml",
+        "ref/netcore50/ko/Microsoft.CSharp.xml",
+        "ref/netcore50/ru/Microsoft.CSharp.xml",
+        "ref/netcore50/zh-hans/Microsoft.CSharp.xml",
+        "ref/netcore50/zh-hant/Microsoft.CSharp.xml",
+        "ref/netcoreapp2.0/_._",
+        "ref/netstandard1.0/Microsoft.CSharp.dll",
+        "ref/netstandard1.0/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/de/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/es/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/fr/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/it/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/ja/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/ko/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/ru/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/zh-hans/Microsoft.CSharp.xml",
+        "ref/netstandard1.0/zh-hant/Microsoft.CSharp.xml",
+        "ref/netstandard2.0/Microsoft.CSharp.dll",
+        "ref/netstandard2.0/Microsoft.CSharp.xml",
+        "ref/portable-net45+win8+wp8+wpa81/_._",
+        "ref/uap10.0.16299/_._",
+        "ref/win8/_._",
+        "ref/wp80/_._",
+        "ref/wpa81/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
@@ -2836,29 +2831,6 @@
         "microsoft.identity.web.nuspec"
       ]
     },
-    "Microsoft.IdentityModel.Abstractions/7.4.1": {
-      "sha512": "GiQzMSzHQWPhnjpn/xy6SGcjtN8ZJbhB9ZEg3RglJ64QwH+VGp7xEpIN674UgjSDF+jJSrAY4/7/2S6F7Nh0hw==",
-      "type": "package",
-      "path": "microsoft.identitymodel.abstractions/7.4.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net461/Microsoft.IdentityModel.Abstractions.dll",
-        "lib/net461/Microsoft.IdentityModel.Abstractions.xml",
-        "lib/net462/Microsoft.IdentityModel.Abstractions.dll",
-        "lib/net462/Microsoft.IdentityModel.Abstractions.xml",
-        "lib/net472/Microsoft.IdentityModel.Abstractions.dll",
-        "lib/net472/Microsoft.IdentityModel.Abstractions.xml",
-        "lib/net6.0/Microsoft.IdentityModel.Abstractions.dll",
-        "lib/net6.0/Microsoft.IdentityModel.Abstractions.xml",
-        "lib/net8.0/Microsoft.IdentityModel.Abstractions.dll",
-        "lib/net8.0/Microsoft.IdentityModel.Abstractions.xml",
-        "lib/netstandard2.0/Microsoft.IdentityModel.Abstractions.dll",
-        "lib/netstandard2.0/Microsoft.IdentityModel.Abstractions.xml",
-        "microsoft.identitymodel.abstractions.7.4.1.nupkg.sha512",
-        "microsoft.identitymodel.abstractions.nuspec"
-      ]
-    },
     "Microsoft.IdentityModel.JsonWebTokens/6.12.1": {
       "sha512": "0rMYegsigcKccO3pmpFY3Q9RkElMIaZgqtvRXz2T1DCc9fjhWudJsliURY0kSMYIl4R+MPfED945HF+URimvLg==",
       "type": "package",
@@ -2878,26 +2850,22 @@
         "microsoft.identitymodel.jsonwebtokens.nuspec"
       ]
     },
-    "Microsoft.IdentityModel.Logging/7.4.1": {
-      "sha512": "QsNBNAdoTP+JxBqqMw3isVeV86z2b+ka94Pue3eRRz8O15mfHhcSnb10IM+aqavAaxCO+EwNu5F/yyRlQ0usWg==",
+    "Microsoft.IdentityModel.Logging/6.12.1": {
+      "sha512": "6ZQV/76CpdsSacIKw6qZypP1AlEJsORl7Hps763PN0I92DJpwFrl0zkUmQUUFMJsW3iLo570I1IHeJvdsNWgIA==",
       "type": "package",
-      "path": "microsoft.identitymodel.logging/7.4.1",
+      "path": "microsoft.identitymodel.logging/6.12.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
+        "lib/net45/Microsoft.IdentityModel.Logging.dll",
+        "lib/net45/Microsoft.IdentityModel.Logging.xml",
         "lib/net461/Microsoft.IdentityModel.Logging.dll",
         "lib/net461/Microsoft.IdentityModel.Logging.xml",
-        "lib/net462/Microsoft.IdentityModel.Logging.dll",
-        "lib/net462/Microsoft.IdentityModel.Logging.xml",
         "lib/net472/Microsoft.IdentityModel.Logging.dll",
         "lib/net472/Microsoft.IdentityModel.Logging.xml",
-        "lib/net6.0/Microsoft.IdentityModel.Logging.dll",
-        "lib/net6.0/Microsoft.IdentityModel.Logging.xml",
-        "lib/net8.0/Microsoft.IdentityModel.Logging.dll",
-        "lib/net8.0/Microsoft.IdentityModel.Logging.xml",
         "lib/netstandard2.0/Microsoft.IdentityModel.Logging.dll",
         "lib/netstandard2.0/Microsoft.IdentityModel.Logging.xml",
-        "microsoft.identitymodel.logging.7.4.1.nupkg.sha512",
+        "microsoft.identitymodel.logging.6.12.1.nupkg.sha512",
         "microsoft.identitymodel.logging.nuspec"
       ]
     },
@@ -2939,26 +2907,22 @@
         "microsoft.identitymodel.protocols.openidconnect.nuspec"
       ]
     },
-    "Microsoft.IdentityModel.Tokens/7.4.1": {
-      "sha512": "akl3hQWdj87XkSRahwhrmx9ZfchF97RZoKr9v9fwjrpQz3t0x8lnsjcOfButSS6cvyY/EX0HJuXb5hgkqFjP/g==",
+    "Microsoft.IdentityModel.Tokens/6.12.1": {
+      "sha512": "m2mSP82NFq2o6pOPrAnANc9hRJ+0koiy2RHdlr2FRSOF3C5c5IEVaO7IRFPKRCnvcSeEJF5kWUVoJmpEAutoFw==",
       "type": "package",
-      "path": "microsoft.identitymodel.tokens/7.4.1",
+      "path": "microsoft.identitymodel.tokens/6.12.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
+        "lib/net45/Microsoft.IdentityModel.Tokens.dll",
+        "lib/net45/Microsoft.IdentityModel.Tokens.xml",
         "lib/net461/Microsoft.IdentityModel.Tokens.dll",
         "lib/net461/Microsoft.IdentityModel.Tokens.xml",
-        "lib/net462/Microsoft.IdentityModel.Tokens.dll",
-        "lib/net462/Microsoft.IdentityModel.Tokens.xml",
         "lib/net472/Microsoft.IdentityModel.Tokens.dll",
         "lib/net472/Microsoft.IdentityModel.Tokens.xml",
-        "lib/net6.0/Microsoft.IdentityModel.Tokens.dll",
-        "lib/net6.0/Microsoft.IdentityModel.Tokens.xml",
-        "lib/net8.0/Microsoft.IdentityModel.Tokens.dll",
-        "lib/net8.0/Microsoft.IdentityModel.Tokens.xml",
         "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.dll",
         "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.xml",
-        "microsoft.identitymodel.tokens.7.4.1.nupkg.sha512",
+        "microsoft.identitymodel.tokens.6.12.1.nupkg.sha512",
         "microsoft.identitymodel.tokens.nuspec"
       ]
     },
@@ -3083,118 +3047,6 @@
         "runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.xml",
         "useSharedDesignerContext.txt",
         "version.txt"
-      ]
-    },
-    "OpenIddict.Abstractions/5.5.0": {
-      "sha512": "ex94l1k4x9Apxn4LfgDm2LPdNrs4HI5YD1rL6BSy/ZzQOVXJ/gQLpXkSXRxMHLB1u76UbcslZaltuU3JCMuBHQ==",
-      "type": "package",
-      "path": "openiddict.abstractions/5.5.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "lib/net461/OpenIddict.Abstractions.dll",
-        "lib/net461/OpenIddict.Abstractions.xml",
-        "lib/net472/OpenIddict.Abstractions.dll",
-        "lib/net472/OpenIddict.Abstractions.xml",
-        "lib/net48/OpenIddict.Abstractions.dll",
-        "lib/net48/OpenIddict.Abstractions.xml",
-        "lib/net6.0/OpenIddict.Abstractions.dll",
-        "lib/net6.0/OpenIddict.Abstractions.xml",
-        "lib/net7.0/OpenIddict.Abstractions.dll",
-        "lib/net7.0/OpenIddict.Abstractions.xml",
-        "lib/net8.0/OpenIddict.Abstractions.dll",
-        "lib/net8.0/OpenIddict.Abstractions.xml",
-        "lib/netstandard2.0/OpenIddict.Abstractions.dll",
-        "lib/netstandard2.0/OpenIddict.Abstractions.xml",
-        "lib/netstandard2.1/OpenIddict.Abstractions.dll",
-        "lib/netstandard2.1/OpenIddict.Abstractions.xml",
-        "openiddict.abstractions.5.5.0.nupkg.sha512",
-        "openiddict.abstractions.nuspec"
-      ]
-    },
-    "OpenIddict.Core/5.5.0": {
-      "sha512": "8orycL+kWFh2AMc0b5NvN+aTfwJ0lF0RE3r2JBxAl3/tH5BRiWntp4EWrmX859c0FaIWHTRh5Xb4M0Gbtorjuw==",
-      "type": "package",
-      "path": "openiddict.core/5.5.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "lib/net461/OpenIddict.Core.dll",
-        "lib/net461/OpenIddict.Core.xml",
-        "lib/net472/OpenIddict.Core.dll",
-        "lib/net472/OpenIddict.Core.xml",
-        "lib/net48/OpenIddict.Core.dll",
-        "lib/net48/OpenIddict.Core.xml",
-        "lib/net6.0/OpenIddict.Core.dll",
-        "lib/net6.0/OpenIddict.Core.xml",
-        "lib/net7.0/OpenIddict.Core.dll",
-        "lib/net7.0/OpenIddict.Core.xml",
-        "lib/net8.0/OpenIddict.Core.dll",
-        "lib/net8.0/OpenIddict.Core.xml",
-        "lib/netstandard2.0/OpenIddict.Core.dll",
-        "lib/netstandard2.0/OpenIddict.Core.xml",
-        "lib/netstandard2.1/OpenIddict.Core.dll",
-        "lib/netstandard2.1/OpenIddict.Core.xml",
-        "openiddict.core.5.5.0.nupkg.sha512",
-        "openiddict.core.nuspec"
-      ]
-    },
-    "OpenIddict.EntityFrameworkCore/5.5.0": {
-      "sha512": "WuVgpZgjhHpdwCCtzgORBgZwVuSgPx+M8d6UQGV1p07zxBGL0BVV5mkfWLpNpkC6H9rgfrcScoigURKIv/fKlg==",
-      "type": "package",
-      "path": "openiddict.entityframeworkcore/5.5.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "lib/net461/OpenIddict.EntityFrameworkCore.dll",
-        "lib/net461/OpenIddict.EntityFrameworkCore.xml",
-        "lib/net472/OpenIddict.EntityFrameworkCore.dll",
-        "lib/net472/OpenIddict.EntityFrameworkCore.xml",
-        "lib/net48/OpenIddict.EntityFrameworkCore.dll",
-        "lib/net48/OpenIddict.EntityFrameworkCore.xml",
-        "lib/net6.0/OpenIddict.EntityFrameworkCore.dll",
-        "lib/net6.0/OpenIddict.EntityFrameworkCore.xml",
-        "lib/net7.0/OpenIddict.EntityFrameworkCore.dll",
-        "lib/net7.0/OpenIddict.EntityFrameworkCore.xml",
-        "lib/net8.0/OpenIddict.EntityFrameworkCore.dll",
-        "lib/net8.0/OpenIddict.EntityFrameworkCore.xml",
-        "lib/netstandard2.0/OpenIddict.EntityFrameworkCore.dll",
-        "lib/netstandard2.0/OpenIddict.EntityFrameworkCore.xml",
-        "lib/netstandard2.1/OpenIddict.EntityFrameworkCore.dll",
-        "lib/netstandard2.1/OpenIddict.EntityFrameworkCore.xml",
-        "openiddict.entityframeworkcore.5.5.0.nupkg.sha512",
-        "openiddict.entityframeworkcore.nuspec"
-      ]
-    },
-    "OpenIddict.EntityFrameworkCore.Models/5.5.0": {
-      "sha512": "QHKsnPYzGSjxTflkpYIwsrDGpwLR2I3rHMvi3919JQ4YQPSdtEp9i0rxmuAKGtk1e4qyccidxgR52cwwvTkfwA==",
-      "type": "package",
-      "path": "openiddict.entityframeworkcore.models/5.5.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "lib/net461/OpenIddict.EntityFrameworkCore.Models.dll",
-        "lib/net461/OpenIddict.EntityFrameworkCore.Models.xml",
-        "lib/net472/OpenIddict.EntityFrameworkCore.Models.dll",
-        "lib/net472/OpenIddict.EntityFrameworkCore.Models.xml",
-        "lib/net48/OpenIddict.EntityFrameworkCore.Models.dll",
-        "lib/net48/OpenIddict.EntityFrameworkCore.Models.xml",
-        "lib/net6.0/OpenIddict.EntityFrameworkCore.Models.dll",
-        "lib/net6.0/OpenIddict.EntityFrameworkCore.Models.xml",
-        "lib/net7.0/OpenIddict.EntityFrameworkCore.Models.dll",
-        "lib/net7.0/OpenIddict.EntityFrameworkCore.Models.xml",
-        "lib/net8.0/OpenIddict.EntityFrameworkCore.Models.dll",
-        "lib/net8.0/OpenIddict.EntityFrameworkCore.Models.xml",
-        "lib/netstandard2.0/OpenIddict.EntityFrameworkCore.Models.dll",
-        "lib/netstandard2.0/OpenIddict.EntityFrameworkCore.Models.xml",
-        "lib/netstandard2.1/OpenIddict.EntityFrameworkCore.Models.dll",
-        "lib/netstandard2.1/OpenIddict.EntityFrameworkCore.Models.xml",
-        "openiddict.entityframeworkcore.models.5.5.0.nupkg.sha512",
-        "openiddict.entityframeworkcore.models.nuspec"
       ]
     },
     "Swashbuckle.AspNetCore/6.5.0": {
@@ -4023,7 +3875,6 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.29",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.29",
       "Microsoft.Identity.Web >= 1.16.0",
-      "OpenIddict.EntityFrameworkCore >= 5.5.0",
       "Swashbuckle.AspNetCore >= 6.5.0"
     ]
   },
@@ -4101,10 +3952,6 @@
           "Microsoft.Identity.Web": {
             "target": "Package",
             "version": "[1.16.0, )"
-          },
-          "OpenIddict.EntityFrameworkCore": {
-            "target": "Package",
-            "version": "[5.5.0, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",

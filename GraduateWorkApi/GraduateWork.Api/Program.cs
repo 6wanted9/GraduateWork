@@ -1,15 +1,26 @@
 using GraduateWorkApi.Configuration;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
+const string corsName = "AllowedHosts";
 
 // Add services to the container.
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+builder.Services.AddDatabaseConfiguration(builder.Configuration);
+builder.Services.AddAuthConfiguration(builder.Configuration);
+builder.Services.RegisterServices();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddDatabase(builder.Configuration);
+builder.Services.AddSwaggerConfiguration();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: corsName,
+        b =>
+        {
+            var origins = builder.Configuration[corsName].Split(";");
+            b.WithOrigins(origins).AllowAnyHeader().AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
 
@@ -20,6 +31,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(corsName);
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

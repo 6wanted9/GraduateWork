@@ -29,7 +29,6 @@
 /Users/dimakatanov/RiderProjects/GraduateWork/GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/Microsoft.Identity.Client.dll
 /Users/dimakatanov/RiderProjects/GraduateWork/GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/Microsoft.Identity.Client.Extensions.Msal.dll
 /Users/dimakatanov/RiderProjects/GraduateWork/GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/Microsoft.Identity.Web.dll
-/Users/dimakatanov/RiderProjects/GraduateWork/GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/Microsoft.IdentityModel.Abstractions.dll
 /Users/dimakatanov/RiderProjects/GraduateWork/GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/Microsoft.IdentityModel.JsonWebTokens.dll
 /Users/dimakatanov/RiderProjects/GraduateWork/GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/Microsoft.IdentityModel.Logging.dll
 /Users/dimakatanov/RiderProjects/GraduateWork/GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.dll
@@ -37,10 +36,6 @@
 /Users/dimakatanov/RiderProjects/GraduateWork/GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/Microsoft.IdentityModel.Tokens.dll
 /Users/dimakatanov/RiderProjects/GraduateWork/GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/Microsoft.OpenApi.dll
 /Users/dimakatanov/RiderProjects/GraduateWork/GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/Microsoft.Win32.SystemEvents.dll
-/Users/dimakatanov/RiderProjects/GraduateWork/GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/OpenIddict.Abstractions.dll
-/Users/dimakatanov/RiderProjects/GraduateWork/GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/OpenIddict.Core.dll
-/Users/dimakatanov/RiderProjects/GraduateWork/GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/OpenIddict.EntityFrameworkCore.dll
-/Users/dimakatanov/RiderProjects/GraduateWork/GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/OpenIddict.EntityFrameworkCore.Models.dll
 /Users/dimakatanov/RiderProjects/GraduateWork/GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/Swashbuckle.AspNetCore.Swagger.dll
 /Users/dimakatanov/RiderProjects/GraduateWork/GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/dimakatanov/RiderProjects/GraduateWork/GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/Swashbuckle.AspNetCore.SwaggerUI.dll
