@@ -54,3 +54,9 @@ dkms.conf
 *.cache
 
 *.sentinel
+
+GraduateWorkApi/GraduateWork.Api/obj/
+
+GraduateWorkApi/.DS_Store
+
+GraduateWorkApi/GraduateWork.Infrastructure/obj/

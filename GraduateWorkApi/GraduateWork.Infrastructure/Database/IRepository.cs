@@ -1,5 +1,4 @@
 using System.Linq.Expressions;
-using GraduateWork.Infrastructure.Entities;
 using GraduateWork.Infrastructure.Entities.Abstracts;
 
 namespace GraduateWork.Infrastructure.Database;
