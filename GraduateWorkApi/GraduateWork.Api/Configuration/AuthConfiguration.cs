@@ -11,7 +11,7 @@ public static class AuthConfiguration
 {
     public static void AddAuthConfiguration(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddIdentity<ApplicationUser, IdentityRole>()
+        services.AddIdentity<ApplicationUser, ApplicationUserRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
         services.AddAuthentication(options =>
