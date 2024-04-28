@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using GraduateWork.Infrastructure.Entities;
+using GraduateWork.Infrastructure.Entities.Abstracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace GraduateWork.Infrastructure.Database;
@@ -41,22 +41,24 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
     {
         SetEntityIdIfNeeded(entity);
         var entityEntry = await Context.AddAsync(entity);
+        await Context.SaveChangesAsync();
 
         return entityEntry.Entity;
     }
     
-    public Task<TEntity> Update(TEntity entity)
+    public async Task<TEntity> Update(TEntity entity)
     {
         var entityEntry = Context.Set<TEntity>().Update(entity);
+        await Context.SaveChangesAsync();
 
-        return Task.FromResult(entityEntry.Entity);
+        return entityEntry.Entity;
     }
     
     public Task Delete(TEntity entity)
     {
         Context.Remove(entity);
 
-        return Task.CompletedTask;
+        return Context.SaveChangesAsync();
     }
     
     private static void SetEntityIdIfNeeded(TEntity entity)

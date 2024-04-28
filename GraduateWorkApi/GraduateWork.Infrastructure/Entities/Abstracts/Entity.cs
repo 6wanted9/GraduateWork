@@ -1,4 +1,4 @@
-namespace GraduateWork.Infrastructure.Entities;
+namespace GraduateWork.Infrastructure.Entities.Abstracts;
 
 public abstract class Entity
 {
