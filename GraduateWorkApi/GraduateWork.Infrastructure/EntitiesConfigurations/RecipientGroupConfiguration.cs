@@ -8,9 +8,11 @@ public class RecipientGroupConfiguration : IEntityTypeConfiguration<RecipientGro
 {
     public void Configure(EntityTypeBuilder<RecipientGroup> builder)
     {
-        builder.HasKey(et => et.Id);
-        builder.HasOne(et => et.User)
+        builder.HasKey(rg => rg.Id);
+        builder.Property(rg => rg.Name).IsRequired();
+        builder.Property(rg => rg.Recipients).IsRequired();
+        builder.HasOne(rg => rg.User)
             .WithMany(u => u.RecipientGroups)
-            .HasForeignKey(et => et.UserId);
+            .HasForeignKey(rg => rg.UserId);
     }
 }

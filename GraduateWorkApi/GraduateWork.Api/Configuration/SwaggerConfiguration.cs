@@ -8,7 +8,7 @@ public static class SwaggerConfiguration
     {
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Wedding Planner API", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Graduate Work API", Version = "v1" });
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Description = "Standard Authorization header using the Oauth2 scheme. Example: \"bearer {token}\"",

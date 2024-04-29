@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "GraduateWork.Infrastructure/1.0.0": {
         "dependencies": {
+          "EntityFrameworkCore.EncryptColumn": "6.0.8",
           "Microsoft.AspNetCore.Identity": "2.2.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.29",
           "Microsoft.EntityFrameworkCore": "6.0.29",
@@ -16,6 +17,17 @@
         },
         "runtime": {
           "GraduateWork.Infrastructure.dll": {}
+        }
+      },
+      "EntityFrameworkCore.EncryptColumn/6.0.8": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "6.0.29"
+        },
+        "runtime": {
+          "lib/netcoreapp6.0/EntityFrameworkCore.EncryptColumn.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "Humanizer.Core/2.8.26": {
@@ -830,6 +842,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "EntityFrameworkCore.EncryptColumn/6.0.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-AgnhI+4ZM0lySJKR4cEWvDe/EtGL9nIF3jAMz9XikAyMdbEknDTlj0ksSdLwq7OVXMh/ZsR0IuRHNkcnfXkGzQ==",
+      "path": "entityframeworkcore.encryptcolumn/6.0.8",
+      "hashPath": "entityframeworkcore.encryptcolumn.6.0.8.nupkg.sha512"
     },
     "Humanizer.Core/2.8.26": {
       "type": "package",

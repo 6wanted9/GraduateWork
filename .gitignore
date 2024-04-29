@@ -60,3 +60,7 @@ GraduateWorkApi/GraduateWork.Api/obj/
 GraduateWorkApi/.DS_Store
 
 GraduateWorkApi/GraduateWork.Infrastructure/obj/
+
+GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/
+
+*.user
