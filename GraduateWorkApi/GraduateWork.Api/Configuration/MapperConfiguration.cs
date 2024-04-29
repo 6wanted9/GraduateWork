@@ -22,5 +22,8 @@ public class MapperConfiguration : Profile
             .ForMember(
                 d => d.Recipients,
                 o => o.MapFrom(s => string.Join(RecipientGroupConstants.Delimiter, s.Recipients.Distinct())));
+        
+        CreateMap<CreateMailingAccountRequestModel, MailingAccount>();
+        CreateMap<UpdateMailingAccountRequestModel, MailingAccount>();
     }
 }
