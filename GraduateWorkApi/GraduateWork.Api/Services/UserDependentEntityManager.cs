@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using System.Security.Claims;
 using AutoMapper;
 using GraduateWork.Infrastructure.Database;
@@ -6,6 +7,7 @@ using GraduateWork.Infrastructure.Entities.Abstracts;
 using GraduateWorkApi.Extensions;
 using GraduateWorkApi.Interfaces;
 using GraduateWorkApi.Models;
+using GraduateWorkApi.Utils;
 using Microsoft.AspNetCore.Identity;
 using OperationResult;
 using static OperationResult.Helpers;
@@ -30,6 +32,19 @@ internal class UserDependentEntityManager<TEntity> : IUserDependentEntityManager
         _repository = repository;
         _userManager = userManager;
         _mapper = mapper;
+    }
+
+    public Task<IEnumerable<TEntity>> Get(
+        ClaimsPrincipal user,
+        Expression<Func<TEntity, bool>>? filter = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        params Expression<Func<TEntity, object>>[] includes)
+    {
+        var userId = _userManager.GetConvertedUserId(user);
+        Expression<Func<TEntity, bool>> filterByUserId = entity => entity.UserId == userId;
+        filter = filter != null ? ExpressionUtils.And(filter, filterByUserId) : filterByUserId;
+
+        return _repository.Get(filter, orderBy, includes);
     }
 
     public async Task<Result<TEntity, string>> Create(TEntity entity, ClaimsPrincipal user)
