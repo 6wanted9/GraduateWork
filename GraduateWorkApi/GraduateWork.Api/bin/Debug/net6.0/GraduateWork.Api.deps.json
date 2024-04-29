@@ -8,6 +8,8 @@
     ".NETCoreApp,Version=v6.0": {
       "GraduateWork.Api/1.0.0": {
         "dependencies": {
+          "AutoMapper": "13.0.1",
+          "CSharp.OperationResult": "0.1.6",
           "GraduateWork.Infrastructure": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.22",
           "Microsoft.AspNetCore.Authentication.OpenIdConnect": "6.0.22",
@@ -21,6 +23,17 @@
         },
         "runtime": {
           "GraduateWork.Api.dll": {}
+        }
+      },
+      "AutoMapper/13.0.1": {
+        "dependencies": {
+          "Microsoft.Extensions.Options": "6.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/AutoMapper.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.1.0"
+          }
         }
       },
       "Azure.Core/1.6.0": {
@@ -82,6 +95,14 @@
           "lib/netstandard2.0/Azure.Security.KeyVault.Secrets.dll": {
             "assemblyVersion": "4.1.0.0",
             "fileVersion": "4.100.20.41103"
+          }
+        }
+      },
+      "CSharp.OperationResult/0.1.6": {
+        "runtime": {
+          "lib/netstandard2.0/CSharp.OperationResult.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -842,6 +863,13 @@
       "serviceable": false,
       "sha512": ""
     },
+    "AutoMapper/13.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/Fx1SbJ16qS7dU4i604Sle+U9VLX+WSNVJggk6MupKVkYvvBm4XqYaeFuf67diHefHKHs50uQIS2YEDFhPCakQ==",
+      "path": "automapper/13.0.1",
+      "hashPath": "automapper.13.0.1.nupkg.sha512"
+    },
     "Azure.Core/1.6.0": {
       "type": "package",
       "serviceable": true,
@@ -869,6 +897,13 @@
       "sha512": "sha512-SK4XTPEaXI5UTdtSkr8TN4ZKnvazNHhybnnkxHgOyRAhV9ObcIjbrNlhS4ZeR8XtI+HidL+v/WIIVfR1+jKB8Q==",
       "path": "azure.security.keyvault.secrets/4.1.0",
       "hashPath": "azure.security.keyvault.secrets.4.1.0.nupkg.sha512"
+    },
+    "CSharp.OperationResult/0.1.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-nTfJ8UQTlZvqCTxN8a6KFNpRxY3vyK2rYEtFz6l8s+DRdgbGbqtYfLeqBQjt9UN4ma1y8yB/lA0n5qkSUlYsmg==",
+      "path": "csharp.operationresult/0.1.6",
+      "hashPath": "csharp.operationresult.0.1.6.nupkg.sha512"
     },
     "Humanizer.Core/2.8.26": {
       "type": "package",

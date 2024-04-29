@@ -1,7 +1,12 @@
 using System.Security.Claims;
+using AutoMapper;
 using GraduateWork.Infrastructure.Database;
+using GraduateWork.Infrastructure.Entities;
 using GraduateWork.Infrastructure.Entities.Abstracts;
+using GraduateWorkApi.Extensions;
 using GraduateWorkApi.Interfaces;
+using GraduateWorkApi.Models;
+using Microsoft.AspNetCore.Identity;
 using OperationResult;
 using static OperationResult.Helpers;
 
@@ -10,30 +15,52 @@ namespace GraduateWorkApi.Services;
 internal class UserDependentEntityManager<TEntity> : IUserDependentEntityManager<TEntity>
     where TEntity : Entity, IHasUser
 {
+    private const string AccessDeniedMessage = "Access denied.";
+    private const string NotFoundMessage = "Not found.";
+    
     private readonly IRepository<TEntity> _repository;
-    private readonly IUserDependentEntityAccessChecker _userDependentEntityAccessChecker;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IMapper _mapper;
 
     public UserDependentEntityManager(
         IRepository<TEntity> repository,
-        IUserDependentEntityAccessChecker userDependentEntityAccessChecker)
+        UserManager<ApplicationUser> userManager,
+        IMapper mapper)
     {
         _repository = repository;
-        _userDependentEntityAccessChecker = userDependentEntityAccessChecker;
+        _userManager = userManager;
+        _mapper = mapper;
     }
 
-    public Task<Result<TEntity, string>> Create(TEntity entity, ClaimsPrincipal user)
+    public async Task<Result<TEntity, string>> Create(TEntity entity, ClaimsPrincipal user)
     {
-        return PerformAction(entity, user, _repository.Add);
+        entity.UserId = _userManager.GetConvertedUserId(user)!.Value;
+        return await _repository.Add(entity);
     }
     
-    public Task<Result<TEntity, string>> Update(TEntity entity, ClaimsPrincipal user)
+    public async Task<Result<TEntity, string>> Update<TModel>(TModel updateModel, ClaimsPrincipal user)
+        where TModel: EntityModel
     {
-        return PerformAction(entity, user, _repository.Update);
+        var entity = (await _repository.Get(e => e.Id == updateModel.Id)).SingleOrDefault();
+        if (entity == null)
+        {
+            return Error(NotFoundMessage);
+        }
+        
+        _mapper.Map(updateModel, entity);
+        
+        return await PerformAction(entity, user, _repository.Update);
     }
     
-    public Task<Result<TEntity, string>> Delete(TEntity entity, ClaimsPrincipal user)
+    public async Task<Result<TEntity, string>> Delete(Guid entityId, ClaimsPrincipal user)
     {
-        return PerformAction(entity, user, _repository.Delete);
+        var entity = (await _repository.Get(e => e.Id == entityId)).SingleOrDefault();
+        if (entity == null)
+        {
+            return Error(NotFoundMessage);
+        }
+        
+        return await PerformAction(entity, user, _repository.Delete);
     }
     
     private async Task<Result<TEntity, string>> PerformAction(
@@ -41,9 +68,9 @@ internal class UserDependentEntityManager<TEntity> : IUserDependentEntityManager
         ClaimsPrincipal user,
         Func<TEntity, Task> action)
     {
-        if (!_userDependentEntityAccessChecker.IsAccessible(entity, user))
+        if (_userManager.GetConvertedUserId(user) != entity.UserId)
         {
-            return Error("Access denied.");
+            return Error(AccessDeniedMessage);
         }
 
         await action(entity);
