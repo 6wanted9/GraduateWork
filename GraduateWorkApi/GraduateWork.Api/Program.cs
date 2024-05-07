@@ -2,8 +2,10 @@ using GraduateWorkApi.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 const string corsName = "AllowedHosts";
+const string appSettingsPathConfigurationKey = "ApplicationSettingsPath";
 
 // Add services to the container.
+builder.Configuration.AddJsonFile(builder.Configuration[appSettingsPathConfigurationKey]);
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 builder.Services.AddAuthConfiguration(builder.Configuration);
 builder.Services.RegisterServices();
