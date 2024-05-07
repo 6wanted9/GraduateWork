@@ -8,7 +8,7 @@ const string appSettingsPathConfigurationKey = "ApplicationSettingsPath";
 builder.Configuration.AddJsonFile(builder.Configuration[appSettingsPathConfigurationKey]);
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 builder.Services.AddAuthConfiguration(builder.Configuration);
-builder.Services.RegisterServices();
+builder.Services.RegisterServices(builder.Configuration);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

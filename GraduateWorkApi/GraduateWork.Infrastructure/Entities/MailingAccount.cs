@@ -9,10 +9,10 @@ public class MailingAccount : Entity, IHasUser
     public string Email { get; set; }
     
     [EncryptColumn]
-    public string ClientId { get; set; }
+    public string AccessToken { get; set; }
     
     [EncryptColumn]
-    public string ClientSecret { get; set; }
+    public string RefreshToken { get; set; }
     
     public Guid UserId { get; set; }
     public ApplicationUser User { get; set; }

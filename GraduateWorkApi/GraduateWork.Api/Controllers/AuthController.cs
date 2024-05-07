@@ -18,12 +18,12 @@ public class AuthController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("login")]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(AuthResponseModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> Login([FromBody] AuthRequestModel request)
     {
         var response = await _authenticationService.Login(request);
 
-        return Ok(response);
+        return Ok(new AuthResponseModel(response));
     }
 
     [AllowAnonymous]

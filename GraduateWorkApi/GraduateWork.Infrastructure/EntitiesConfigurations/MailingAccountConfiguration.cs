@@ -11,8 +11,8 @@ public class MailingAccountConfiguration : IEntityTypeConfiguration<MailingAccou
         builder.HasKey(ma => ma.Id);
         builder.Property(ma => ma.Name).IsRequired();
         builder.Property(ma => ma.Email).IsRequired();
-        builder.Property(ma => ma.ClientId).IsRequired();
-        builder.Property(ma => ma.ClientSecret).IsRequired();
+        builder.Property(ma => ma.AccessToken).IsRequired();
+        builder.Property(ma => ma.RefreshToken).IsRequired();
         builder.HasOne(ma => ma.User)
             .WithMany(u => u.MailingAccounts)
             .HasForeignKey(ma => ma.UserId);

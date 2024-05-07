@@ -1,4 +1,6 @@
 using AutoMapper;
+using Google.Apis.Auth;
+using Google.Apis.Auth.OAuth2.Responses;
 using GraduateWork.Infrastructure.Entities;
 using GraduateWork.Infrastructure.Entities.Abstracts;
 using GraduateWorkApi.Constants;
@@ -23,7 +25,8 @@ public class MapperConfiguration : Profile
                 d => d.Recipients,
                 o => o.MapFrom(s => string.Join(RecipientGroupConstants.Delimiter, s.Recipients.Distinct())));
         
-        CreateMap<CreateMailingAccountRequestModel, MailingAccount>();
+        CreateMap<TokenResponse, MailingAccount>();
+        CreateMap<GoogleJsonWebSignature.Payload, MailingAccount>();
         CreateMap<UpdateMailingAccountRequestModel, MailingAccount>();
     }
 }

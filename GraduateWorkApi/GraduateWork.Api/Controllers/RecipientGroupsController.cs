@@ -21,6 +21,7 @@ public class RecipientGroupController : ControllerBase
         _recipientGroupsManager = recipientGroupsManager;
     }
 
+    [Authorize]
     [HttpPost]
     [ProducesResponseType(typeof(EntityModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> Create([FromBody] CreateRecipientGroupRequestModel request)
@@ -34,6 +35,7 @@ public class RecipientGroupController : ControllerBase
         return Ok(_mapper.Map<EntityModel>(result.Value));
     }
     
+    [Authorize]
     [HttpPatch]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Update([FromBody] UpdateRecipientGroupRequestModel request)
@@ -47,6 +49,7 @@ public class RecipientGroupController : ControllerBase
         return Ok();
     }
     
+    [Authorize]
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Delete([FromBody] EntityModel request)
