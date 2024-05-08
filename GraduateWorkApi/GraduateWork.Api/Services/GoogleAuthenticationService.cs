@@ -1,6 +1,7 @@
 using Google.Apis.Auth;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
+using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Gmail.v1;
 using GraduateWorkApi.Interfaces;
 using GraduateWorkApi.Models;
@@ -21,10 +22,16 @@ internal class GoogleAuthenticationService : IGoogleAuthenticationService
     {
         var authFlow = GenerateAuthFlow();
         var accessData = await authFlow.ExchangeCodeForTokenAsync("", code, "postmessage", CancellationToken.None);
-        var payload = await GoogleJsonWebSignature.ValidateAsync(accessData.IdToken, new GoogleJsonWebSignature.ValidationSettings
-        {
-            Audience = new[] { _googleAuthConfig.ClientId }
-        });
+        var payload = await ValidateAccess(accessData);
+
+        return new GoogleAuthResult(accessData, payload);
+    }
+
+    public async Task<GoogleAuthResult> ApplyRefreshToken(string refreshToken)
+    {
+        var authFlow = GenerateAuthFlow();
+        var accessData = await authFlow.RefreshTokenAsync("", refreshToken, CancellationToken.None);
+        var payload = await ValidateAccess(accessData);
 
         return new GoogleAuthResult(accessData, payload);
     }
@@ -39,6 +46,14 @@ internal class GoogleAuthenticationService : IGoogleAuthenticationService
                 ClientSecret = _googleAuthConfig.ClientSecret
             },
             Scopes = new[] { GmailService.Scope.GmailSend },
+        });
+    }
+
+    private async Task<GoogleJsonWebSignature.Payload> ValidateAccess(TokenResponse tokenResponse)
+    {
+        return await GoogleJsonWebSignature.ValidateAsync(tokenResponse.IdToken, new GoogleJsonWebSignature.ValidationSettings
+        {
+            Audience = new[] { _googleAuthConfig.ClientId }
         });
     }
 }
