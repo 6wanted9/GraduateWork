@@ -17,6 +17,7 @@ public static class ServiceRegistrationExtensions
 
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IUserClaimsProvider, UserClaimsProvider>();
+        services.AddScoped<IGoogleAuthenticationService, GoogleAuthenticationService>();
         services.AddScoped<IMailingAccountManagementService, MailingAccountManagementService>();
         services.AddScoped<IEmailSender, EmailSender>();
     }

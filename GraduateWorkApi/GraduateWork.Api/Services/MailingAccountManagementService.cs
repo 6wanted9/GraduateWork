@@ -1,12 +1,6 @@
 using AutoMapper;
-using Google.Apis.Auth;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Auth.OAuth2.Flows;
-using Google.Apis.Gmail.v1;
 using GraduateWork.Infrastructure.Entities;
 using GraduateWorkApi.Interfaces;
-using GraduateWorkApi.Models;
-using Microsoft.Extensions.Options;
 using OperationResult;
 using static OperationResult.Helpers;
 
@@ -14,51 +8,32 @@ namespace GraduateWorkApi.Services;
 
 internal class MailingAccountManagementService : IMailingAccountManagementService
 {
-    private readonly GoogleAuthConfig _googleAuthConfig;
     private readonly IUserDependentRepository<MailingAccount> _mailingAccountsRepository;
     private readonly IMapper _mapper;
+    private readonly IGoogleAuthenticationService _googleAuthenticationService;
 
     public MailingAccountManagementService(
-        IOptions<GoogleAuthConfig> googleAuthConfig,
         IUserDependentRepository<MailingAccount> mailingAccountsRepository,
-        IMapper mapper)
+        IMapper mapper,
+        IGoogleAuthenticationService googleAuthenticationService)
     {
-        _googleAuthConfig = googleAuthConfig.Value;
         _mailingAccountsRepository = mailingAccountsRepository;
         _mapper = mapper;
+        _googleAuthenticationService = googleAuthenticationService;
     }
 
     public async Task<Result<MailingAccount, string>> Create(string token)
     {
-        var cancellationToken = new CancellationToken();
-        var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        cancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(20));
-        var flow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
-        {
-            ClientSecrets = new ClientSecrets
-            {
-                ClientId = _googleAuthConfig.ClientId,
-                ClientSecret = _googleAuthConfig.ClientSecret
-            },
-            Scopes = new[] { GmailService.Scope.GmailSend },
-        });
-        
-        var accessData = await flow.ExchangeCodeForTokenAsync("", token, "postmessage", cancellationToken);
-        var payload = await GoogleJsonWebSignature.ValidateAsync(accessData.IdToken, new GoogleJsonWebSignature.ValidationSettings
-        {
-            Audience = new[] { _googleAuthConfig.ClientId }
-        });
-
-        var accounts = await _mailingAccountsRepository.Get(ma => ma.Email == payload.Email);
+        var googleAuthResult = await _googleAuthenticationService.Login(token);
+        var accounts = await _mailingAccountsRepository.Get(ma => ma.Email == googleAuthResult.PayloadData.Email);
         if (accounts.Any())
         {
             return Error("Mailing account with provided email already exists.");
         }
 
         var mailingAccount = new MailingAccount();
-        _mapper.Map(payload, mailingAccount);
-        _mapper.Map(accessData, mailingAccount);
-        
+        _mapper.Map(googleAuthResult.PayloadData, mailingAccount);
+        _mapper.Map(googleAuthResult.AccessData, mailingAccount);
 
         return await _mailingAccountsRepository.Create(mailingAccount);
     }
