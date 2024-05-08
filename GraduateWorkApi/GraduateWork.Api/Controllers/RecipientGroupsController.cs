@@ -13,12 +13,12 @@ namespace GraduateWorkApi.Controllers;
 public class RecipientGroupController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly IUserDependentEntityManager<RecipientGroup> _recipientGroupsManager;
+    private readonly IUserDependentRepository<RecipientGroup> _recipientGroupsRepository;
 
-    public RecipientGroupController(IMapper mapper, IUserDependentEntityManager<RecipientGroup> recipientGroupsManager)
+    public RecipientGroupController(IMapper mapper, IUserDependentRepository<RecipientGroup> recipientGroupsRepository)
     {
         _mapper = mapper;
-        _recipientGroupsManager = recipientGroupsManager;
+        _recipientGroupsRepository = recipientGroupsRepository;
     }
 
     [Authorize]
@@ -26,7 +26,7 @@ public class RecipientGroupController : ControllerBase
     [ProducesResponseType(typeof(EntityModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> Create([FromBody] CreateRecipientGroupRequestModel request)
     {
-        var result = await _recipientGroupsManager.Create(_mapper.Map<RecipientGroup>(request), User);
+        var result = await _recipientGroupsRepository.Create(_mapper.Map<RecipientGroup>(request));
         if (result.IsError)
         {
             return BadRequest(result.Error);
@@ -40,7 +40,7 @@ public class RecipientGroupController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Update([FromBody] UpdateRecipientGroupRequestModel request)
     {
-        var result = await _recipientGroupsManager.Update(request, User);
+        var result = await _recipientGroupsRepository.Update(request);
         if (result.IsError)
         {
             return BadRequest(result.Error);
@@ -54,7 +54,7 @@ public class RecipientGroupController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Delete([FromBody] EntityModel request)
     {
-        var result = await _recipientGroupsManager.Delete(request.Id, User);
+        var result = await _recipientGroupsRepository.Delete(request.Id);
         if (result.IsError)
         {
             return NotFound();

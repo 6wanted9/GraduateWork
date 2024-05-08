@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using AutoMapper;
 using Google.Apis.Auth;
 using Google.Apis.Auth.OAuth2;
@@ -16,20 +15,20 @@ namespace GraduateWorkApi.Services;
 internal class MailingAccountManagementService : IMailingAccountManagementService
 {
     private readonly GoogleAuthConfig _googleAuthConfig;
-    private readonly IUserDependentEntityManager<MailingAccount> _mailingAccountsManager;
+    private readonly IUserDependentRepository<MailingAccount> _mailingAccountsRepository;
     private readonly IMapper _mapper;
 
     public MailingAccountManagementService(
         IOptions<GoogleAuthConfig> googleAuthConfig,
-        IUserDependentEntityManager<MailingAccount> mailingAccountsManager,
+        IUserDependentRepository<MailingAccount> mailingAccountsRepository,
         IMapper mapper)
     {
         _googleAuthConfig = googleAuthConfig.Value;
-        _mailingAccountsManager = mailingAccountsManager;
+        _mailingAccountsRepository = mailingAccountsRepository;
         _mapper = mapper;
     }
 
-    public async Task<Result<MailingAccount, string>> Create(string token, ClaimsPrincipal user)
+    public async Task<Result<MailingAccount, string>> Create(string token)
     {
         var cancellationToken = new CancellationToken();
         var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
@@ -50,7 +49,7 @@ internal class MailingAccountManagementService : IMailingAccountManagementServic
             Audience = new[] { _googleAuthConfig.ClientId }
         });
 
-        var accounts = await _mailingAccountsManager.Get(user, ma => ma.Email == payload.Email);
+        var accounts = await _mailingAccountsRepository.Get(ma => ma.Email == payload.Email);
         if (accounts.Any())
         {
             return Error("Mailing account with provided email already exists.");
@@ -61,6 +60,6 @@ internal class MailingAccountManagementService : IMailingAccountManagementServic
         _mapper.Map(accessData, mailingAccount);
         
 
-        return await _mailingAccountsManager.Create(mailingAccount, user);
+        return await _mailingAccountsRepository.Create(mailingAccount);
     }
 }

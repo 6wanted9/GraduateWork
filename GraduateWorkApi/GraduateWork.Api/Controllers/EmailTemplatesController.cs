@@ -13,12 +13,12 @@ namespace GraduateWorkApi.Controllers;
 public class EmailTemplatesController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly IUserDependentEntityManager<EmailTemplate> _emailTemplatesManager;
+    private readonly IUserDependentRepository<EmailTemplate> _emailTemplatesRepository;
 
-    public EmailTemplatesController(IMapper mapper, IUserDependentEntityManager<EmailTemplate> emailTemplatesManager)
+    public EmailTemplatesController(IMapper mapper, IUserDependentRepository<EmailTemplate> emailTemplatesRepository)
     {
         _mapper = mapper;
-        _emailTemplatesManager = emailTemplatesManager;
+        _emailTemplatesRepository = emailTemplatesRepository;
     }
 
     [Authorize]
@@ -26,7 +26,7 @@ public class EmailTemplatesController : ControllerBase
     [ProducesResponseType(typeof(EntityModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> Create([FromBody] CreateEmailTemplateRequestModel request)
     {
-        var result = await _emailTemplatesManager.Create(_mapper.Map<EmailTemplate>(request), User);
+        var result = await _emailTemplatesRepository.Create(_mapper.Map<EmailTemplate>(request));
         if (result.IsError)
         {
             return BadRequest(result.Error);
@@ -40,7 +40,7 @@ public class EmailTemplatesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Update([FromBody] UpdateEmailTemplateRequestModel request)
     {
-        var result = await _emailTemplatesManager.Update(request, User);
+        var result = await _emailTemplatesRepository.Update(request);
         if (result.IsError)
         {
             return BadRequest(result.Error);
@@ -54,7 +54,7 @@ public class EmailTemplatesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Delete([FromBody] EntityModel request)
     {
-        var result = await _emailTemplatesManager.Delete(request.Id, User);
+        var result = await _emailTemplatesRepository.Delete(request.Id);
         if (result.IsError)
         {
             return NotFound();

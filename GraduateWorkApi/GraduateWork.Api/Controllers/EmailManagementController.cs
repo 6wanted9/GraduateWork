@@ -22,7 +22,7 @@ public class EmailManagementController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Send([FromRoute] Guid mailingAccountId)
     {
-        var result = await _emailSender.Send(User, mailingAccountId);
+        var result = await _emailSender.Send(mailingAccountId);
         if (result.IsError)
         {
             return BadRequest();

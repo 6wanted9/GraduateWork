@@ -13,16 +13,16 @@ namespace GraduateWorkApi.Controllers;
 public class MailingAccountsController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly IUserDependentEntityManager<MailingAccount> _mailingAccountsManager;
+    private readonly IUserDependentRepository<MailingAccount> _mailingAccountsRepository;
     private readonly IMailingAccountManagementService _mailingAccountManagementService;
 
     public MailingAccountsController(
         IMapper mapper,
-        IUserDependentEntityManager<MailingAccount> mailingAccountsManager,
+        IUserDependentRepository<MailingAccount> mailingAccountsRepository,
         IMailingAccountManagementService mailingAccountManagementService)
     {
         _mapper = mapper;
-        _mailingAccountsManager = mailingAccountsManager;
+        _mailingAccountsRepository = mailingAccountsRepository;
         _mailingAccountManagementService = mailingAccountManagementService;
     }
 
@@ -31,7 +31,7 @@ public class MailingAccountsController : ControllerBase
     [ProducesResponseType(typeof(EntityModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> Create(CreateMailingAccountRequestModel request)
     {
-        var result = await _mailingAccountManagementService.Create(request.Token, User);
+        var result = await _mailingAccountManagementService.Create(request.Token);
         if (result.IsError)
         {
             return BadRequest(result.Error);
@@ -45,7 +45,7 @@ public class MailingAccountsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Update([FromBody] UpdateMailingAccountRequestModel request)
     {
-        var result = await _mailingAccountsManager.Update(request, User);
+        var result = await _mailingAccountsRepository.Update(request);
         if (result.IsError)
         {
             return BadRequest(result.Error);
@@ -59,7 +59,7 @@ public class MailingAccountsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Delete([FromBody] EntityModel request)
     {
-        var result = await _mailingAccountsManager.Delete(request.Id, User);
+        var result = await _mailingAccountsRepository.Delete(request.Id);
         if (result.IsError)
         {
             return NotFound();

@@ -9,10 +9,14 @@ public static class ServiceRegistrationExtensions
 {
     public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IAuthenticationService, AuthenticationService>();
-        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        services.AddScoped(typeof(IUserDependentEntityManager<>), typeof(UserDependentEntityManager<>));
+        services.AddHttpContextAccessor();
         services.Configure<GoogleAuthConfig>(configuration.GetSection("GoogleAuthIntegration"));
+        
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped(typeof(IUserDependentRepository<>), typeof(UserDependentRepository<>));
+
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IUserClaimsProvider, UserClaimsProvider>();
         services.AddScoped<IMailingAccountManagementService, MailingAccountManagementService>();
         services.AddScoped<IEmailSender, EmailSender>();
     }

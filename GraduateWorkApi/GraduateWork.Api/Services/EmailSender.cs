@@ -12,15 +12,15 @@ namespace GraduateWorkApi.Services;
 
 internal class EmailSender : IEmailSender
 {
-    private readonly IUserDependentEntityManager<MailingAccount> _mailingAccountManager;
+    private readonly IUserDependentRepository<MailingAccount> _mailingAccountRepository;
     
-    public EmailSender(IUserDependentEntityManager<MailingAccount> mailingAccountManager)
+    public EmailSender(IUserDependentRepository<MailingAccount> mailingAccountRepository)
     {
-        _mailingAccountManager = mailingAccountManager;
+        _mailingAccountRepository = mailingAccountRepository;
     }
-    public async Task<Status> Send(ClaimsPrincipal user, Guid mailingAccountId)
+    public async Task<Status> Send(Guid mailingAccountId)
     {
-        var mailingAccount = (await _mailingAccountManager.Get(user, account => account.Id == mailingAccountId)).SingleOrDefault();
+        var mailingAccount = (await _mailingAccountRepository.Get(account => account.Id == mailingAccountId)).SingleOrDefault();
         if (mailingAccount == null)
         {
             return Error();

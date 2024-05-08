@@ -14,7 +14,7 @@ using static OperationResult.Helpers;
 
 namespace GraduateWorkApi.Services;
 
-internal class UserDependentEntityManager<TEntity> : IUserDependentEntityManager<TEntity>
+internal class UserDependentRepository<TEntity> : IUserDependentRepository<TEntity>
     where TEntity : Entity, IHasUser
 {
     private const string AccessDeniedMessage = "Access denied.";
@@ -23,37 +23,42 @@ internal class UserDependentEntityManager<TEntity> : IUserDependentEntityManager
     private readonly IRepository<TEntity> _repository;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IMapper _mapper;
+    private readonly IUserClaimsProvider _claimsProvider;
 
-    public UserDependentEntityManager(
+    public UserDependentRepository(
         IRepository<TEntity> repository,
         UserManager<ApplicationUser> userManager,
-        IMapper mapper)
+        IMapper mapper,
+        IUserClaimsProvider claimsProvider)
     {
         _repository = repository;
         _userManager = userManager;
         _mapper = mapper;
+        _claimsProvider = claimsProvider;
     }
 
     public Task<IEnumerable<TEntity>> Get(
-        ClaimsPrincipal user,
         Expression<Func<TEntity, bool>>? filter = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
         params Expression<Func<TEntity, object>>[] includes)
     {
-        var userId = _userManager.GetConvertedUserId(user);
+        var userClaims = _claimsProvider.Get();
+        var userId = _userManager.GetConvertedUserId(userClaims);
         Expression<Func<TEntity, bool>> filterByUserId = entity => entity.UserId == userId;
+        
         filter = filter != null ? ExpressionUtils.And(filter, filterByUserId) : filterByUserId;
 
         return _repository.Get(filter, orderBy, includes);
     }
 
-    public async Task<Result<TEntity, string>> Create(TEntity entity, ClaimsPrincipal user)
+    public async Task<Result<TEntity, string>> Create(TEntity entity)
     {
-        entity.UserId = _userManager.GetConvertedUserId(user)!.Value;
+        var userClaims = _claimsProvider.Get();
+        entity.UserId = _userManager.GetConvertedUserId(userClaims)!.Value;
         return await _repository.Add(entity);
     }
     
-    public async Task<Result<TEntity, string>> Update<TModel>(TModel updateModel, ClaimsPrincipal user)
+    public async Task<Result<TEntity, string>> Update<TModel>(TModel updateModel)
         where TModel: EntityModel
     {
         var entity = (await _repository.Get(e => e.Id == updateModel.Id)).SingleOrDefault();
@@ -64,10 +69,10 @@ internal class UserDependentEntityManager<TEntity> : IUserDependentEntityManager
         
         _mapper.Map(updateModel, entity);
         
-        return await PerformAction(entity, user, _repository.Update);
+        return await PerformAction(entity, _repository.Update);
     }
     
-    public async Task<Result<TEntity, string>> Delete(Guid entityId, ClaimsPrincipal user)
+    public async Task<Result<TEntity, string>> Delete(Guid entityId)
     {
         var entity = (await _repository.Get(e => e.Id == entityId)).SingleOrDefault();
         if (entity == null)
@@ -75,15 +80,15 @@ internal class UserDependentEntityManager<TEntity> : IUserDependentEntityManager
             return Error(NotFoundMessage);
         }
         
-        return await PerformAction(entity, user, _repository.Delete);
+        return await PerformAction(entity, _repository.Delete);
     }
     
     private async Task<Result<TEntity, string>> PerformAction(
         TEntity entity,
-        ClaimsPrincipal user,
         Func<TEntity, Task> action)
     {
-        if (_userManager.GetConvertedUserId(user) != entity.UserId)
+        var userClaims = _claimsProvider.Get();
+        if (_userManager.GetConvertedUserId(userClaims) != entity.UserId)
         {
             return Error(AccessDeniedMessage);
         }
