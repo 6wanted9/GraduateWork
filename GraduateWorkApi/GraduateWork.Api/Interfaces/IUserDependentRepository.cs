@@ -13,6 +13,7 @@ public interface IUserDependentRepository<TEntity> where TEntity : Entity
         params Expression<Func<TEntity, object>>[] includes);
     
     Task<Result<TEntity, string>> Create(TEntity entity);
-    Task<Result<TEntity, string>> Update<TModel>(TModel updateModel) where TModel: EntityModel;
+    Task<Result<TEntity, string>> Update(TEntity entity);
+    Task<Result<TEntity, string>> UpdateFromDto<TModel>(TModel updateModel) where TModel: EntityModel;
     Task<Result<TEntity, string>> Delete(Guid entityId);
 }

@@ -40,7 +40,7 @@ public class EmailTemplatesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Update([FromBody] UpdateEmailTemplateRequestModel request)
     {
-        var result = await _emailTemplatesRepository.Update(request);
+        var result = await _emailTemplatesRepository.UpdateFromDto(request);
         if (result.IsError)
         {
             return BadRequest(result.Error);

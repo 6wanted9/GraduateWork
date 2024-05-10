@@ -1,5 +1,3 @@
-using System.Security.Claims;
-using Google.Apis.Auth.OAuth2;
 using Google.Apis.Gmail.v1;
 using Google.Apis.Gmail.v1.Data;
 using Google.Apis.Services;
@@ -13,10 +11,12 @@ namespace GraduateWorkApi.Services;
 internal class EmailSender : IEmailSender
 {
     private readonly IUserDependentRepository<MailingAccount> _mailingAccountRepository;
+    private readonly IGoogleAuthenticationService _googleAuthenticationService;
     
-    public EmailSender(IUserDependentRepository<MailingAccount> mailingAccountRepository)
+    public EmailSender(IUserDependentRepository<MailingAccount> mailingAccountRepository, IGoogleAuthenticationService googleAuthenticationService)
     {
         _mailingAccountRepository = mailingAccountRepository;
+        _googleAuthenticationService = googleAuthenticationService;
     }
     public async Task<Status> Send(Guid mailingAccountId)
     {
@@ -25,10 +25,11 @@ internal class EmailSender : IEmailSender
         {
             return Error();
         }
-        
+
+        var credentials = await _googleAuthenticationService.GetCredentials(mailingAccountId);
         var emailService = new GmailService(new BaseClientService.Initializer
         {
-            HttpClientInitializer = GoogleCredential.FromAccessToken(mailingAccount.AccessToken),
+            HttpClientInitializer = credentials,
         });
         
         var message = new Message()

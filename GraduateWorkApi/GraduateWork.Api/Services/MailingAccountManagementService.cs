@@ -22,16 +22,17 @@ internal class MailingAccountManagementService : IMailingAccountManagementServic
         _googleAuthenticationService = googleAuthenticationService;
     }
 
-    public async Task<Result<MailingAccount, string>> Create(string token)
+    public async Task<Result<MailingAccount, string>> Create(string googleAuthCode)
     {
-        var googleAuthResult = await _googleAuthenticationService.Login(token);
+        var accountId = Guid.NewGuid();
+        var googleAuthResult = await _googleAuthenticationService.Login(googleAuthCode, accountId);
         var accounts = await _mailingAccountsRepository.Get(ma => ma.Email == googleAuthResult.PayloadData.Email);
         if (accounts.Any())
         {
             return Error("Mailing account with provided email already exists.");
         }
 
-        var mailingAccount = new MailingAccount();
+        var mailingAccount = new MailingAccount { Id = accountId };
         _mapper.Map(googleAuthResult.PayloadData, mailingAccount);
         _mapper.Map(googleAuthResult.AccessData, mailingAccount);
 

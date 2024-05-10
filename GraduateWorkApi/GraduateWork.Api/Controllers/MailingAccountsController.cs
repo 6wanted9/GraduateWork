@@ -45,7 +45,7 @@ public class MailingAccountsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Update([FromBody] UpdateMailingAccountRequestModel request)
     {
-        var result = await _mailingAccountsRepository.Update(request);
+        var result = await _mailingAccountsRepository.UpdateFromDto(request);
         if (result.IsError)
         {
             return BadRequest(result.Error);

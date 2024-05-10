@@ -3,6 +3,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Gmail.v1;
+using Google.Apis.Util.Store;
 using GraduateWorkApi.Interfaces;
 using GraduateWorkApi.Models;
 using Microsoft.Extensions.Options;
@@ -11,6 +12,7 @@ namespace GraduateWorkApi.Services;
 
 internal class GoogleAuthenticationService : IGoogleAuthenticationService
 {
+    private const string DataStoreFolderName = "Google.Apis.Auth";
     private readonly GoogleAuthConfig _googleAuthConfig;
 
     public GoogleAuthenticationService(IOptions<GoogleAuthConfig> googleAuthConfig)
@@ -18,22 +20,26 @@ internal class GoogleAuthenticationService : IGoogleAuthenticationService
         _googleAuthConfig = googleAuthConfig.Value;
     }
 
-    public async Task<GoogleAuthResult> Login(string code)
+    public async Task<GoogleAuthResult> Login(string code, Guid accountId)
     {
         var authFlow = GenerateAuthFlow();
-        var accessData = await authFlow.ExchangeCodeForTokenAsync("", code, "postmessage", CancellationToken.None);
+        var accessData = await authFlow.ExchangeCodeForTokenAsync(accountId.ToString(), code, "postmessage", CancellationToken.None);
         var payload = await ValidateAccess(accessData);
 
         return new GoogleAuthResult(accessData, payload);
     }
-
-    public async Task<GoogleAuthResult> ApplyRefreshToken(string refreshToken)
+    
+    public async Task<UserCredential> GetCredentials(Guid accountId)
     {
+        var accountIdStringified = accountId.ToString();
         var authFlow = GenerateAuthFlow();
-        var accessData = await authFlow.RefreshTokenAsync("", refreshToken, CancellationToken.None);
-        var payload = await ValidateAccess(accessData);
+        var accessData = await authFlow.LoadTokenAsync(accountIdStringified, CancellationToken.None);
+        if (accessData == null)
+        {
+            throw new Exception("There's no credentials for provided account.");
+        }
 
-        return new GoogleAuthResult(accessData, payload);
+        return new UserCredential(authFlow, accountIdStringified, accessData);
     }
 
     private GoogleAuthorizationCodeFlow GenerateAuthFlow()
@@ -46,6 +52,7 @@ internal class GoogleAuthenticationService : IGoogleAuthenticationService
                 ClientSecret = _googleAuthConfig.ClientSecret
             },
             Scopes = new[] { GmailService.Scope.GmailSend },
+            DataStore = new FileDataStore(DataStoreFolderName)
         });
     }
 

@@ -40,7 +40,7 @@ public class RecipientGroupController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Update([FromBody] UpdateRecipientGroupRequestModel request)
     {
-        var result = await _recipientGroupsRepository.Update(request);
+        var result = await _recipientGroupsRepository.UpdateFromDto(request);
         if (result.IsError)
         {
             return BadRequest(result.Error);

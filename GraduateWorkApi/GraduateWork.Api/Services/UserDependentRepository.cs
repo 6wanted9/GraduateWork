@@ -1,5 +1,4 @@
 using System.Linq.Expressions;
-using System.Security.Claims;
 using AutoMapper;
 using GraduateWork.Infrastructure.Database;
 using GraduateWork.Infrastructure.Entities;
@@ -58,7 +57,12 @@ internal class UserDependentRepository<TEntity> : IUserDependentRepository<TEnti
         return await _repository.Add(entity);
     }
     
-    public async Task<Result<TEntity, string>> Update<TModel>(TModel updateModel)
+    public async Task<Result<TEntity, string>> Update(TEntity entity)
+    {
+        return await PerformAction(entity, _repository.Update);
+    }
+    
+    public async Task<Result<TEntity, string>> UpdateFromDto<TModel>(TModel updateModel)
         where TModel: EntityModel
     {
         var entity = (await _repository.Get(e => e.Id == updateModel.Id)).SingleOrDefault();
