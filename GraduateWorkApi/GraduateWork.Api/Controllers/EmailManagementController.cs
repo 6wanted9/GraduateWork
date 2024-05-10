@@ -1,4 +1,5 @@
 using GraduateWorkApi.Interfaces;
+using GraduateWorkApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,9 +21,9 @@ public class EmailManagementController : ControllerBase
     [HttpGet]
     [Route("{mailingAccountId}/send")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> Send([FromRoute] Guid mailingAccountId)
+    public async Task<IActionResult> Send([FromRoute] Guid mailingAccountId, [FromBody] SendEmailRequestModel request)
     {
-        var result = await _emailSender.Send(mailingAccountId);
+        var result = await _emailSender.Send(mailingAccountId, request.EmailTemplateId, request.RecipientGroupId);
         if (result.IsError)
         {
             return BadRequest();

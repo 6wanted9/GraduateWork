@@ -11,14 +11,22 @@ namespace GraduateWorkApi.Services;
 internal class EmailSender : IEmailSender
 {
     private readonly IUserDependentRepository<MailingAccount> _mailingAccountRepository;
+    private readonly IUserDependentRepository<EmailTemplate> _emailTemplateRepository;
+    private readonly IUserDependentRepository<RecipientGroup> _recipientGroupRepository;
     private readonly IGoogleAuthenticationService _googleAuthenticationService;
     
-    public EmailSender(IUserDependentRepository<MailingAccount> mailingAccountRepository, IGoogleAuthenticationService googleAuthenticationService)
+    public EmailSender(
+        IUserDependentRepository<MailingAccount> mailingAccountRepository,
+        IUserDependentRepository<EmailTemplate> emailTemplateRepository,
+        IUserDependentRepository<RecipientGroup> recipientGroupRepository,
+        IGoogleAuthenticationService googleAuthenticationService)
     {
         _mailingAccountRepository = mailingAccountRepository;
         _googleAuthenticationService = googleAuthenticationService;
+        _emailTemplateRepository = emailTemplateRepository;
+        _recipientGroupRepository = recipientGroupRepository;
     }
-    public async Task<Status> Send(Guid mailingAccountId)
+    public async Task<Status> Send(Guid mailingAccountId, Guid emailTemplateId, Guid recipientGroupId)
     {
         var mailingAccount = (await _mailingAccountRepository.Get(account => account.Id == mailingAccountId)).SingleOrDefault();
         if (mailingAccount == null)
@@ -32,17 +40,34 @@ internal class EmailSender : IEmailSender
             HttpClientInitializer = credentials,
         });
         
-        var message = new Message()
+        var emailTemplate = (await _emailTemplateRepository.Get(template => template.Id == emailTemplateId)).SingleOrDefault();
+        if (emailTemplate == null)
         {
-            Raw = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(
-                $"To: {"dkatanov2002@gmail.com"}\n" +
-                "Subject: " + "someSubject" + "\n" +
-                "\n" +
-                "Email body"))
-        };
+            return Error();
+        }
+        
+        var recipientGroup = (await _recipientGroupRepository.Get(group => group.Id == recipientGroupId)).SingleOrDefault();
+        if (recipientGroup == null)
+        {
+            return Error();
+        }
+
+        var message = BuildMessage(emailTemplate, recipientGroup);
 
         await emailService.Users.Messages.Send(message, mailingAccount.Email).ExecuteAsync();
 
         return Ok();
+    }
+
+    private static Message BuildMessage(EmailTemplate template, RecipientGroup recipientGroup)
+    {
+        return new Message()
+        {
+            Raw = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(
+                $"To: {recipientGroup.Recipients}\n" +
+                $"Subject: {template.Subject}\n" +
+                "\n" +
+                template.Content))
+        };
     }
 }

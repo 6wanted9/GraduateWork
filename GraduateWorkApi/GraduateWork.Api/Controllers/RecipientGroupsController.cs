@@ -10,12 +10,12 @@ namespace GraduateWorkApi.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
-public class RecipientGroupController : ControllerBase
+public class RecipientGroupsController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly IUserDependentRepository<RecipientGroup> _recipientGroupsRepository;
 
-    public RecipientGroupController(IMapper mapper, IUserDependentRepository<RecipientGroup> recipientGroupsRepository)
+    public RecipientGroupsController(IMapper mapper, IUserDependentRepository<RecipientGroup> recipientGroupsRepository)
     {
         _mapper = mapper;
         _recipientGroupsRepository = recipientGroupsRepository;
