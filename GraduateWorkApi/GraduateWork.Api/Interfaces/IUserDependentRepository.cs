@@ -11,7 +11,8 @@ public interface IUserDependentRepository<TEntity> where TEntity : Entity
         Expression<Func<TEntity, bool>>? filter = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
         params Expression<Func<TEntity, object>>[] includes);
-    
+
+    Task<Result<TEntity, string>> CreateOrUpdate(TEntity entity);
     Task<Result<TEntity, string>> Create(TEntity entity);
     Task<Result<TEntity, string>> Update(TEntity entity);
     Task<Result<TEntity, string>> UpdateFromDto<TModel>(TModel updateModel) where TModel: EntityModel;

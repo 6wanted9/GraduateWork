@@ -1,9 +1,6 @@
-using Google.Apis.Auth;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
-using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Gmail.v1;
-using Google.Apis.Util.Store;
 using GraduateWorkApi.Interfaces;
 using GraduateWorkApi.Models;
 using Microsoft.Extensions.Options;
@@ -12,21 +9,19 @@ namespace GraduateWorkApi.Services;
 
 internal class GoogleAuthenticationService : IGoogleAuthenticationService
 {
-    private const string DataStoreFolderName = "Google.Apis.Auth";
     private readonly GoogleAuthConfig _googleAuthConfig;
+    private readonly IMailingAccountManagementService _mailingAccountManagementService;
 
-    public GoogleAuthenticationService(IOptions<GoogleAuthConfig> googleAuthConfig)
+    public GoogleAuthenticationService(IOptions<GoogleAuthConfig> googleAuthConfig, IMailingAccountManagementService mailingAccountManagementService)
     {
+        _mailingAccountManagementService = mailingAccountManagementService;
         _googleAuthConfig = googleAuthConfig.Value;
     }
 
-    public async Task<GoogleAuthResult> Login(string code, Guid accountId)
+    public Task Login(string code)
     {
         var authFlow = GenerateAuthFlow();
-        var accessData = await authFlow.ExchangeCodeForTokenAsync(accountId.ToString(), code, "postmessage", CancellationToken.None);
-        var payload = await ValidateAccess(accessData);
-
-        return new GoogleAuthResult(accessData, payload);
+        return authFlow.ExchangeCodeForTokenAsync(null, code, "postmessage", CancellationToken.None);
     }
     
     public async Task<UserCredential> GetCredentials(Guid accountId)
@@ -52,15 +47,7 @@ internal class GoogleAuthenticationService : IGoogleAuthenticationService
                 ClientSecret = _googleAuthConfig.ClientSecret
             },
             Scopes = new[] { GmailService.Scope.GmailSend },
-            DataStore = new FileDataStore(DataStoreFolderName)
-        });
-    }
-
-    private async Task<GoogleJsonWebSignature.Payload> ValidateAccess(TokenResponse tokenResponse)
-    {
-        return await GoogleJsonWebSignature.ValidateAsync(tokenResponse.IdToken, new GoogleJsonWebSignature.ValidationSettings
-        {
-            Audience = new[] { _googleAuthConfig.ClientId }
+            DataStore = _mailingAccountManagementService
         });
     }
 }

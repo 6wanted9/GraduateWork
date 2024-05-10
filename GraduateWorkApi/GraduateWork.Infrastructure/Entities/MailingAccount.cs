@@ -14,6 +14,15 @@ public class MailingAccount : Entity, IHasUser
     [EncryptColumn]
     public string RefreshToken { get; set; }
     
+    [EncryptColumn]
+    public string IdToken { get; set; }
+    
+    public DateTime IssuedUtc { get; set; }
+    public string TokenType { get; set; }
+    public long? ExpiresInSeconds { get; set; }
+    public string Scope { get; set; }
+    public string Picture { get; set; }
+    
     public Guid UserId { get; set; }
     public ApplicationUser User { get; set; }
 }

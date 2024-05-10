@@ -1,9 +1,7 @@
-using GraduateWork.Infrastructure.Entities;
-using OperationResult;
+using Google.Apis.Util.Store;
 
 namespace GraduateWorkApi.Interfaces;
 
-public interface IMailingAccountManagementService
+public interface IMailingAccountManagementService: IDataStore
 {
-    Task<Result<MailingAccount, string>> Create(string googleAuthCode);
 }

@@ -49,6 +49,13 @@ internal class UserDependentRepository<TEntity> : IUserDependentRepository<TEnti
 
         return _repository.Get(filter, orderBy, includes);
     }
+    
+    public Task<Result<TEntity, string>> CreateOrUpdate(TEntity entity)
+    {
+        return entity.IsNew
+            ? this.Create(entity)
+            : this.Update(entity);
+    }
 
     public async Task<Result<TEntity, string>> Create(TEntity entity)
     {
