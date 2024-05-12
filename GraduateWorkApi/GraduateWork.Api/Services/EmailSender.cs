@@ -66,7 +66,7 @@ internal class EmailSender : IEmailSender
             Raw = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(
                 $"To: {recipientGroup.Recipients}\n" +
                 $"Subject: {template.Subject}\n" +
-                "\n" +
+                "Content-Type: text/html; charset=utf-8\r\n\r\n" +
                 template.Content))
         };
     }
