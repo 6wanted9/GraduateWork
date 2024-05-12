@@ -66,3 +66,5 @@ GraduateWorkApi/GraduateWork.Api/bin/Debug/net6.0/
 *.user
 
 GraduateWorkApi/GraduateWork.Api/appsettings.Secrets.json
+
+.DS_Store

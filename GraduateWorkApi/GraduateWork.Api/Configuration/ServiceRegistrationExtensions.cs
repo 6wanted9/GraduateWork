@@ -20,5 +20,6 @@ public static class ServiceRegistrationExtensions
         services.AddScoped<IGoogleAuthenticationService, GoogleAuthenticationService>();
         services.AddScoped<IMailingAccountManagementService, MailingAccountManagementService>();
         services.AddScoped<IEmailSender, EmailSender>();
+        services.AddScoped<IRecipientGroupsManager, RecipientGroupsManager>();
     }
 }

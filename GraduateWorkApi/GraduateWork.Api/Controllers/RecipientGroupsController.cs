@@ -12,11 +12,16 @@ namespace GraduateWorkApi.Controllers;
 [Route("api/[controller]")]
 public class RecipientGroupsController : ControllerBase
 {
+    private readonly IRecipientGroupsManager _recipientGroupsManager;
     private readonly IMapper _mapper;
     private readonly IUserDependentRepository<RecipientGroup> _recipientGroupsRepository;
 
-    public RecipientGroupsController(IMapper mapper, IUserDependentRepository<RecipientGroup> recipientGroupsRepository)
+    public RecipientGroupsController(
+        IRecipientGroupsManager recipientGroupsManager,
+        IMapper mapper,
+        IUserDependentRepository<RecipientGroup> recipientGroupsRepository)
     {
+        _recipientGroupsManager = recipientGroupsManager;
         _mapper = mapper;
         _recipientGroupsRepository = recipientGroupsRepository;
     }
@@ -26,7 +31,7 @@ public class RecipientGroupsController : ControllerBase
     [ProducesResponseType(typeof(EntityModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> Create([FromBody] CreateRecipientGroupRequestModel request)
     {
-        var result = await _recipientGroupsRepository.Create(_mapper.Map<RecipientGroup>(request));
+        var result = await _recipientGroupsManager.Create(request.Name, request.Recipients);
         if (result.IsError)
         {
             return BadRequest(result.Error);
@@ -40,7 +45,7 @@ public class RecipientGroupsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Update([FromBody] UpdateRecipientGroupRequestModel request)
     {
-        var result = await _recipientGroupsRepository.UpdateFromDto(request);
+        var result = await _recipientGroupsManager.Update(request.Id, request.Name, request.Recipients);
         if (result.IsError)
         {
             return BadRequest(result.Error);
