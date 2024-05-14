@@ -26,7 +26,7 @@ public class EmailManagementController : ControllerBase
         var result = await _emailSender.Send(mailingAccountId, request.EmailTemplateId, request.RecipientGroupId);
         if (result.IsError)
         {
-            return BadRequest();
+            return BadRequest(result.Error);
         }
 
         return Ok();

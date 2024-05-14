@@ -26,12 +26,12 @@ internal class EmailSender : IEmailSender
         _emailTemplateRepository = emailTemplateRepository;
         _recipientGroupRepository = recipientGroupRepository;
     }
-    public async Task<Status> Send(Guid mailingAccountId, Guid emailTemplateId, Guid recipientGroupId)
+    public async Task<Status<string>> Send(Guid mailingAccountId, Guid emailTemplateId, Guid recipientGroupId)
     {
         var mailingAccount = (await _mailingAccountRepository.Get(account => account.Id == mailingAccountId)).SingleOrDefault();
         if (mailingAccount == null)
         {
-            return Error();
+            return Error("Mailing account was not found.");
         }
 
         var credentials = await _googleAuthenticationService.GetCredentials(mailingAccountId);
@@ -43,18 +43,24 @@ internal class EmailSender : IEmailSender
         var emailTemplate = (await _emailTemplateRepository.Get(template => template.Id == emailTemplateId)).SingleOrDefault();
         if (emailTemplate == null)
         {
-            return Error();
+            return Error("Email template was not found.");
         }
         
         var recipientGroup = (await _recipientGroupRepository.Get(group => group.Id == recipientGroupId)).SingleOrDefault();
         if (recipientGroup == null)
         {
-            return Error();
+            return Error("Recipients group was not found.");
         }
 
-        var message = BuildMessage(emailTemplate, recipientGroup);
-
-        await emailService.Users.Messages.Send(message, mailingAccount.Email).ExecuteAsync();
+        try
+        {
+            var message = BuildMessage(emailTemplate, recipientGroup);
+            await emailService.Users.Messages.Send(message, mailingAccount.Email).ExecuteAsync();
+        }
+        catch (Exception e)
+        {
+            return Error(e.ToString());
+        }
 
         return Ok();
     }
