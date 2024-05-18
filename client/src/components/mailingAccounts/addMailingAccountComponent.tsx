@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CodeResponse, CredentialResponse, googleLogout, useGoogleLogin } from "@react-oauth/google";
+import { CodeResponse, googleLogout, useGoogleLogin } from "@react-oauth/google";
 import Api from "../../utils/Api";
 import { apiUrls } from "../../constants/api";
 
@@ -14,7 +14,7 @@ export const AddMailingAccountComponent = () => {
         onError: () => console.log('Login Failed:'),
         flow: 'auth-code',
         scope: 'https://www.googleapis.com/auth/gmail.send',
-        overrideScope: true
+        overrideScope: true,
     });
 
     const createMailingAccount = async (code: string) => {
@@ -56,4 +56,4 @@ export const AddMailingAccountComponent = () => {
             )}
         </div>
     );
-}
+};

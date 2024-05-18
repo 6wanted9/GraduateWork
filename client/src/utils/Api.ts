@@ -2,6 +2,7 @@ import axios from "axios";
 import { apiBaseUrl } from "../constants/api";
 import qs from "qs";
 import { AuthSession } from "./AuthSession";
+import { toast } from "react-toastify";
 
 const headers = {
     'Accept-Language': 'en',
@@ -21,7 +22,10 @@ Api.interceptors.request.use(
             url: config.url && encodeURI(config.url)
         };
     },
-    (error) => Promise.reject(error)
+    (error) => {
+        toast.error(error)
+        return Promise.reject(error)
+    }
 );
 
 Api.interceptors.response.use(
@@ -38,7 +42,9 @@ Api.interceptors.response.use(
             }
         }
 
-        return Promise.reject(err.response.message);
+        toast.error(err.response?.message || err.message)
+
+        return Promise.reject(err.message);
     }
 );
 
