@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { CodeResponse, googleLogout, useGoogleLogin } from "@react-oauth/google";
 import Api from "../../utils/Api";
 import { apiUrls } from "../../constants/api";
+import { Button } from "@mui/material";
 
 export const AddMailingAccountComponent = () => {
     const [ tokenResponse, setTokenResponse ] = useState<CodeResponse>();
-    const [ profile, setProfile ] = useState<any>(null);
 
     const login = useGoogleLogin({
         onSuccess: async (codeResponse) => {
@@ -18,11 +18,9 @@ export const AddMailingAccountComponent = () => {
     });
 
     const createMailingAccount = async (code: string) => {
-        const response = await Api.post(apiUrls.mailingAccounts.create, {
+        const response = await Api.post(apiUrls.mailingAccounts.list, {
             "token": code
         });
-
-        setProfile(response.data);
     }
 
     useEffect(() => {
@@ -33,27 +31,7 @@ export const AddMailingAccountComponent = () => {
 
     const logOut = () => {
         googleLogout();
-        setProfile(null);
     };
 
-    return (
-        <div>
-            <h2>React Google Login</h2>
-            <br/>
-            <br/>
-            {profile ? (
-                <div>
-                    {/*<img src={profile.picture} alt="user image"/>*/}
-                    <h3>User Logged in</h3>
-                    {/*<p>Name: {profile.name}</p>*/}
-                    {/*<p>Email Address: {profile.email}</p>*/}
-                    <br/>
-                    <br/>
-                    <button onClick={logOut}>Log out</button>
-                </div>
-            ) : (
-                <button onClick={() => login()}>Sign in with Google 🚀 </button>
-            )}
-        </div>
-    );
-};
+    return (<Button onClick={() => login()}>ADD AN ACCOUNT</Button>);
+}

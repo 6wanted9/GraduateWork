@@ -1,6 +1,8 @@
+using AutoMapper;
 using GraduateWork.Infrastructure.Entities;
 using GraduateWorkApi.Interfaces;
 using GraduateWorkApi.Models;
+using GraduateWorkApi.Models.MailingAccounts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,13 +15,16 @@ public class MailingAccountsController : ControllerBase
 {
     private readonly IUserDependentRepository<MailingAccount> _mailingAccountsRepository;
     private readonly IGoogleAuthenticationService _googleAuthenticationService;
+    private readonly IMapper _mapper;
 
     public MailingAccountsController(
         IUserDependentRepository<MailingAccount> mailingAccountsRepository,
-        IGoogleAuthenticationService googleAuthenticationService)
+        IGoogleAuthenticationService googleAuthenticationService,
+        IMapper mapper)
     {
         _mailingAccountsRepository = mailingAccountsRepository;
         _googleAuthenticationService = googleAuthenticationService;
+        _mapper = mapper;
     }
 
     [Authorize]
@@ -43,5 +48,15 @@ public class MailingAccountsController : ControllerBase
         }
 
         return Ok();
+    }
+    
+    [Authorize]
+    [HttpGet]
+    [ProducesResponseType(typeof(List<MailingAccountViewModel>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Get()
+    {
+        var mailingAccounts = await _mailingAccountsRepository.Get();
+
+        return Ok(_mapper.Map<List<MailingAccountViewModel>>(mailingAccounts));
     }
 }

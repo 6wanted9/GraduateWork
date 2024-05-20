@@ -2,7 +2,6 @@ import axios from "axios";
 import { apiBaseUrl } from "../constants/api";
 import qs from "qs";
 import { AuthSession } from "./AuthSession";
-import { toast } from "react-toastify";
 
 const headers = {
     'Accept-Language': 'en',
@@ -17,13 +16,13 @@ const Api = axios.create({
 
 Api.interceptors.request.use(
     async (config) => {
+        console.log(Api.defaults.headers.Authorization)
         return {
             ...config,
             url: config.url && encodeURI(config.url)
         };
     },
     (error) => {
-        toast.error(error)
         return Promise.reject(error)
     }
 );
@@ -41,8 +40,6 @@ Api.interceptors.response.use(
                     break;
             }
         }
-
-        toast.error(err.response?.message || err.message)
 
         return Promise.reject(err.message);
     }

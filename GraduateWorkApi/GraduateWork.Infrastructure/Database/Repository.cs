@@ -13,7 +13,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
         Context = context;
     }
     
-    public async Task<IEnumerable<TEntity>> Get(
+    public async Task<List<TEntity>> Get(
         Expression<Func<TEntity, bool>>? filter = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
         params Expression<Func<TEntity, object>>[] includes)

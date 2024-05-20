@@ -36,7 +36,7 @@ internal class UserDependentRepository<TEntity> : IUserDependentRepository<TEnti
         _claimsProvider = claimsProvider;
     }
 
-    public Task<IEnumerable<TEntity>> Get(
+    public Task<List<TEntity>> Get(
         Expression<Func<TEntity, bool>>? filter = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
         params Expression<Func<TEntity, object>>[] includes)

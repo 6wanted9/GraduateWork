@@ -1,12 +1,13 @@
 import { Storage } from "./Storage";
 import Api from "./Api";
+import { routePaths } from "../constants/routePaths";
 
 export class AuthSession {
     static accessTokenKey = "__access-token__";
 
-    static isTokenSet() {
+    static isTokenSet(): boolean {
         const authToken = Storage.get(AuthSession.accessTokenKey);
-        return authToken && !!authToken.trim();
+        return !!authToken?.toString()?.trim();
     }
 
     static updateHeader() {
@@ -20,10 +21,12 @@ export class AuthSession {
     static login(token: string) {
         Storage.set(AuthSession.accessTokenKey, token);
         AuthSession.updateHeader();
+        window.location.replace(routePaths.home);
     }
 
     static logout(){
         Storage.remove(AuthSession.accessTokenKey);
         AuthSession.updateHeader();
+        window.location.replace(routePaths.home);
     }
 }

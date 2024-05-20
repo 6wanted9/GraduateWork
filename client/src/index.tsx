@@ -5,6 +5,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { ToastContainer } from "react-toastify";
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -12,6 +15,7 @@ root.render(
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID || ''}>
         <React.StrictMode>
             <App />
+            <ToastContainer/>
         </React.StrictMode>
     </GoogleOAuthProvider>
 );

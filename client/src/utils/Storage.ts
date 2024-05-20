@@ -1,5 +1,5 @@
 export class Storage {
-    static get(key: string) {
+    static get(key: string): Object | Array<any> | string | boolean | null {
         const value = window.localStorage.getItem(key);
         if (value && value !== 'undefined') {
             return JSON.parse(value);
