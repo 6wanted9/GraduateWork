@@ -1,9 +1,9 @@
-import { MailingAccount } from "../../dataModels/mailingAccount";
+import { MailingAccountViewModel } from "../../dataModels/mailingAccounts/mailingAccountViewModel";
 import { Image } from "react-bootstrap";
 import React from "react";
 
 interface Props {
-    account: MailingAccount
+    account: MailingAccountViewModel
 }
 export const MailingAccountItem = (props: Props) => {
     return (<div className="d-flex flex-column align-items-center m-2">

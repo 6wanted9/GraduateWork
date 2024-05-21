@@ -7,6 +7,10 @@ const apiUrls = {
     },
     mailingAccounts: {
         list: "/api/MailingAccounts"
+    },
+    emailTemplates: {
+        list: "/api/EmailTemplates",
+        item: (id: string) => `/api/EmailTemplates/${id}`
     }
 }
 

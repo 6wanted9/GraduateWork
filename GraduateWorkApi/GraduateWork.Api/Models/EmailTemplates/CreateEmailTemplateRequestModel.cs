@@ -1,4 +1,4 @@
-namespace GraduateWorkApi.Models;
+namespace GraduateWorkApi.Models.EmailTemplates;
 
 public class CreateEmailTemplateRequestModel
 {

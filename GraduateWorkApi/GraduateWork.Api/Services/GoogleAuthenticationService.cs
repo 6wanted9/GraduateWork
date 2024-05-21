@@ -46,8 +46,7 @@ internal class GoogleAuthenticationService : IGoogleAuthenticationService
                 ClientId = _googleAuthConfig.ClientId,
                 ClientSecret = _googleAuthConfig.ClientSecret
             },
-            Scopes = new[] { GmailService.Scope.GmailSend },
-            DataStore = _mailingAccountManagementService
+            DataStore = _mailingAccountManagementService,
         });
     }
 }

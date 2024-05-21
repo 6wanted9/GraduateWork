@@ -13,7 +13,7 @@ export const AddMailingAccountComponent = () => {
         },
         onError: () => console.log('Login Failed:'),
         flow: 'auth-code',
-        scope: 'https://www.googleapis.com/auth/gmail.send',
+        scope: 'openid profile email https://www.googleapis.com/auth/gmail.send',
         overrideScope: true,
     });
 

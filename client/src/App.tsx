@@ -2,9 +2,9 @@ import React from 'react';
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { routePaths } from "./constants/routePaths";
-import { AuthorizationPage } from "./pages/AuthorizationPage";
+import { AuthorizationPage } from "./pages/authorizationPage";
 import './App.css';
-import { PrivateRoute } from "./components/layout/PrivateRoute";
+import { PrivateRoute } from "./components/layout/privateRoute";
 import { PrivateRoutes } from "./constants/privateRoutes";
 import { AuthSession } from "./utils/AuthSession";
 

@@ -2,6 +2,7 @@ using AutoMapper;
 using GraduateWork.Infrastructure.Entities;
 using GraduateWorkApi.Interfaces;
 using GraduateWorkApi.Models;
+using GraduateWorkApi.Models.EmailTemplates;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,16 @@ public class EmailTemplatesController : ControllerBase
         _emailTemplatesRepository = emailTemplatesRepository;
     }
 
+    [Authorize]
+    [HttpGet]
+    [ProducesResponseType(typeof(List<EmailTemplateViewModel>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Get()
+    {
+        var emailTemplates = await _emailTemplatesRepository.Get();
+
+        return Ok(_mapper.Map<List<EmailTemplateViewModel>>(emailTemplates));
+    }
+    
     [Authorize]
     [HttpPost]
     [ProducesResponseType(typeof(EntityModel), StatusCodes.Status200OK)]
@@ -51,10 +62,11 @@ public class EmailTemplatesController : ControllerBase
     
     [Authorize]
     [HttpDelete]
+    [Route("/{emailTemplateId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> Delete([FromBody] EntityModel request)
+    public async Task<IActionResult> Delete([FromRoute] Guid emailTemplateId)
     {
-        var result = await _emailTemplatesRepository.Delete(request.Id);
+        var result = await _emailTemplatesRepository.Delete(emailTemplateId);
         if (result.IsError)
         {
             return NotFound();
