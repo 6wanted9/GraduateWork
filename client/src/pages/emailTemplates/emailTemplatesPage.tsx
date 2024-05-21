@@ -1,5 +1,5 @@
 import React from "react";
-import { EmailTemplatesList } from "../components/emailTemplates/emailTemplatesList";
+import { EmailTemplatesList } from "../../components/emailTemplates/emailTemplatesList";
 
 export const EmailTemplatesPage = () => {
     return (<>

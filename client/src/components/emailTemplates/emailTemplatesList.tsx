@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { apiUrls } from "../../constants/api";
 import Api from "../../utils/Api";
 import {
-    CircularProgress,
+    CircularProgress, IconButton,
     Paper,
     Table,
     TableBody,
@@ -15,8 +15,12 @@ import {
 import { toast } from "react-toastify";
 import { EmailTemplateViewModel } from "../../dataModels/emailTemplates/emailTemplateViewModel";
 import { EmailTemplateItem } from "./emailTemplateItem";
+import { Add } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import { routePaths } from "../../constants/routePaths";
 
 export const EmailTemplatesList = () => {
+    const navigate = useNavigate();
     const [emailTemplates, setEmailTemplates] = useState<Array<EmailTemplateViewModel>>([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -24,6 +28,10 @@ export const EmailTemplatesList = () => {
         const templates: Array<EmailTemplateViewModel> = await Api.get(apiUrls.emailTemplates.list);
         setEmailTemplates(templates);
         setIsLoading(false);
+    }
+
+    const useRedirect = () => {
+        return navigate(routePaths.emailTemplates.add);
     }
 
     useEffect(() => {
@@ -40,9 +48,13 @@ export const EmailTemplatesList = () => {
             <Table aria-label="collapsible table">
                 <TableHead>
                     <TableRow>
-                        <TableCell />
+                        <TableCell>
+                            <IconButton size='small' onClick={useRedirect}>
+                                <Add />
+                            </IconButton>
+                        </TableCell>
                         <TableCell>Subject</TableCell>
-                        <TableCell />
+                        <TableCell>Actions</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

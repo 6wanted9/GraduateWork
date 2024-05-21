@@ -3,7 +3,9 @@ export const routePaths = {
     authorization: '/authorization',
     notFound: '/not-found',
     emailTemplates: {
-        path: '/email-templates'
+        path: '/email-templates',
+        add: '/email-templates/add',
+        edit: `/email-templates/edit/:emailTemplateId`
     },
     usersGroups: {
         path: '/users-groups'

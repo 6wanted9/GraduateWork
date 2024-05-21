@@ -1,0 +1,34 @@
+import { EditEmailTemplate } from "../../components/emailTemplates/editEmailTemplate";
+import { useParams } from "react-router-dom";
+import Api from "../../utils/Api";
+import { apiUrls } from "../../constants/api";
+import React, { useEffect, useState } from "react";
+import { EmailTemplateViewModel } from "../../dataModels/emailTemplates/emailTemplateViewModel";
+import { toast } from "react-toastify";
+import { CircularProgress } from "@mui/material";
+export const EditEmailTemplatePage = () => {
+    const { emailTemplateId } = useParams<{ emailTemplateId: string }>();
+    const [emailTemplate, setEmailTemplate] = useState<EmailTemplateViewModel>();
+
+    const getEmailTemplate = async () => {
+        if (emailTemplateId) {
+            const emailTemplate: EmailTemplateViewModel = await Api.get(apiUrls.emailTemplates.item(emailTemplateId));
+            setEmailTemplate(emailTemplate);
+        }
+    }
+
+    useEffect(() => {
+        try {
+            getEmailTemplate();
+        } catch (e) {
+            toast.error("Error occurred");
+        }
+    }, [emailTemplateId]);
+
+    return (<>
+        <h1>Email Templates / Edit</h1>
+        {emailTemplate
+            ? <EditEmailTemplate emailTemplate={emailTemplate}/>
+            : <div className='d-flex flex-column justify-content-center align-items-center'><CircularProgress/></div>}
+    </>);
+}

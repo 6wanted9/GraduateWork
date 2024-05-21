@@ -6,6 +6,11 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { DeleteButton } from "../layout/buttons/deleteButton";
 import { apiUrls } from "../../constants/api";
+import { useNavigate } from "react-router-dom";
+import { Edit } from "@mui/icons-material";
+import { getRoute } from "../../utils/routeUtils";
+import { routePaths } from "../../constants/routePaths";
+import { EditButton } from "../layout/buttons/editButton";
 
 interface Props {
     template: EmailTemplateViewModel,
@@ -28,6 +33,7 @@ export const EmailTemplateItem = (props: Props) => {
                 {props.template.subject}
             </TableCell>
             <TableCell component="th" scope="row">
+                <EditButton entityId={props.template.id} editPagePath={routePaths.emailTemplates.edit} />
                 <DeleteButton entityId={props.template.id} endpoint={apiUrls.emailTemplates.item} stateSetter={props.stateSetter} />
             </TableCell>
         </TableRow>
@@ -35,7 +41,7 @@ export const EmailTemplateItem = (props: Props) => {
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={3}>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <Box sx={{ margin: 1 }}>
-                        <div>{parse(props.template.content)}</div>
+                        {parse(props.template.content)}
                     </Box>
                 </Collapse>
             </TableCell>

@@ -24,7 +24,18 @@ public class EmailTemplatesController : ControllerBase
 
     [Authorize]
     [HttpGet]
+    [Route("{emailTemplateId}")]
     [ProducesResponseType(typeof(List<EmailTemplateViewModel>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Get([FromRoute] Guid emailTemplateId)
+    {
+        var emailTemplate = await _emailTemplatesRepository.Get(t => t.Id == emailTemplateId);
+
+        return Ok(_mapper.Map<EmailTemplateViewModel>(emailTemplate.SingleOrDefault()));
+    }
+    
+    [Authorize]
+    [HttpGet]
+    [ProducesResponseType(typeof(EmailTemplateViewModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get()
     {
         var emailTemplates = await _emailTemplatesRepository.Get();
@@ -62,7 +73,7 @@ public class EmailTemplatesController : ControllerBase
     
     [Authorize]
     [HttpDelete]
-    [Route("/{emailTemplateId}")]
+    [Route("{emailTemplateId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Delete([FromRoute] Guid emailTemplateId)
     {
