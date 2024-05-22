@@ -28,11 +28,11 @@ public class AuthController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("register")]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(AuthResponseModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> Register([FromBody] AuthRequestModel request)
     {
         var response = await _authenticationService.Register(request);
 
-        return Ok(response);
+        return Ok(new AuthResponseModel(response));
     }
 }
