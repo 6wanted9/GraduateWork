@@ -1,6 +1,6 @@
 import { MailingAccountViewModel } from "../../dataModels/mailingAccounts/mailingAccountViewModel";
-import { Image } from "react-bootstrap";
 import React from "react";
+import { Avatar } from "@mui/material";
 
 interface Props {
   account: MailingAccountViewModel;
@@ -8,11 +8,12 @@ interface Props {
 export const MailingAccountItem = (props: Props) => {
   return (
     <div className="d-flex flex-column align-items-center m-2">
-      <Image
+      <Avatar
         className="mb-2"
+        sx={{ width: 100, height: 100 }}
         src={props.account.picture}
-        referrerPolicy="no-referrer"
-        roundedCircle
+        alt="FAILED"
+        slotProps={{ img: { referrerPolicy: "no-referrer" } }}
       />
       <div className="d-flex flex-column align-items-start">
         <span>

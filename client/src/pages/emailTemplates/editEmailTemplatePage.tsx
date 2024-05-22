@@ -12,19 +12,19 @@ export const EditEmailTemplatePage = () => {
 
   const getEmailTemplate = async () => {
     if (emailTemplateId) {
-      const emailTemplate: EmailTemplateViewModel = await Api.get(
-        apiUrls.emailTemplates.item(emailTemplateId),
-      );
-      setEmailTemplate(emailTemplate);
+      try {
+        const emailTemplate: EmailTemplateViewModel = await Api.get(
+          apiUrls.emailTemplates.item(emailTemplateId),
+        );
+        setEmailTemplate(emailTemplate);
+      } catch (e) {
+        toast.error("Error occurred");
+      }
     }
   };
 
   useEffect(() => {
-    try {
-      getEmailTemplate();
-    } catch (e) {
-      toast.error("Error occurred");
-    }
+    getEmailTemplate();
   }, [emailTemplateId]);
 
   return (

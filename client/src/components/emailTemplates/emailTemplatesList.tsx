@@ -28,11 +28,16 @@ export const EmailTemplatesList = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const getEmailTemplates = async () => {
-    const templates: Array<EmailTemplateViewModel> = await Api.get(
-      apiUrls.emailTemplates.list,
-    );
-    setEmailTemplates(templates);
-    setIsLoading(false);
+    try {
+      const templates: Array<EmailTemplateViewModel> = await Api.get(
+        apiUrls.emailTemplates.list,
+      );
+
+      setEmailTemplates(templates);
+      setIsLoading(false);
+    } catch (e) {
+      toast.error("Some error");
+    }
   };
 
   const useRedirect = () => {
@@ -40,11 +45,7 @@ export const EmailTemplatesList = () => {
   };
 
   useEffect(() => {
-    try {
-      getEmailTemplates();
-    } catch (e) {
-      toast.error("Some error");
-    }
+    getEmailTemplates();
   }, []);
 
   return isLoading ? (

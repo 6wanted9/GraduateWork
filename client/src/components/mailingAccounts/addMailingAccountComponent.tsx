@@ -7,8 +7,13 @@ import {
 import Api from "../../utils/Api";
 import { apiUrls } from "../../constants/api";
 import { Button } from "@mui/material";
+import { toast } from "react-toastify";
 
-export const AddMailingAccountComponent = () => {
+interface Props {
+  refetchMailingAccounts: () => Promise<void>;
+}
+
+export const AddMailingAccountComponent = (props: Props) => {
   const [tokenResponse, setTokenResponse] = useState<CodeResponse>();
 
   const login = useGoogleLogin({
@@ -21,14 +26,20 @@ export const AddMailingAccountComponent = () => {
   });
 
   const createMailingAccount = async (code: string) => {
-    const response = await Api.post(apiUrls.mailingAccounts.list, {
-      token: code,
-    });
+    try {
+      await Api.post(apiUrls.mailingAccounts.list, {
+        token: code,
+      });
+
+      await props.refetchMailingAccounts();
+    } catch (e) {
+      toast.error("Something went wrong.");
+    }
   };
 
   useEffect(() => {
     if (tokenResponse && tokenResponse.code) {
-      createMailingAccount(tokenResponse.code).catch(console.error);
+      createMailingAccount(tokenResponse.code);
     }
   }, [tokenResponse]);
 
