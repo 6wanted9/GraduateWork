@@ -4,45 +4,45 @@ import qs from "qs";
 import { AuthSession } from "./AuthSession";
 
 const headers = {
-    'Accept-Language': 'en',
-    'Content-Type': 'application/json'
+  "Accept-Language": "en",
+  "Content-Type": "application/json",
 };
 
 const Api = axios.create({
-    baseURL: apiBaseUrl,
-    headers,
-    paramsSerializer: (params) => qs.stringify(params)
+  baseURL: apiBaseUrl,
+  headers,
+  paramsSerializer: (params) => qs.stringify(params),
 });
 
 Api.interceptors.request.use(
-    async (config) => {
-        console.log(Api.defaults.headers.Authorization)
-        return {
-            ...config,
-            url: config.url && encodeURI(config.url)
-        };
-    },
-    (error) => {
-        return Promise.reject(error)
-    }
+  async (config) => {
+    console.log(Api.defaults.headers.Authorization);
+    return {
+      ...config,
+      url: config.url && encodeURI(config.url),
+    };
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
 );
 
 Api.interceptors.response.use(
-    (res) => res.data,
-    (err) => {
-        if (err.response) {
-            switch (err.response.status) {
-                case 401:
-                    AuthSession.logout();
-                    break;
+  (res) => res.data,
+  (err) => {
+    if (err.response) {
+      switch (err.response.status) {
+        case 401:
+          AuthSession.logout();
+          break;
 
-                default:
-                    break;
-            }
-        }
-
-        return Promise.reject(err.message);
+        default:
+          break;
+      }
     }
+
+    return Promise.reject(err.message);
+  },
 );
 
 export default Api;

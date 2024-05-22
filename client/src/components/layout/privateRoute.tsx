@@ -4,8 +4,12 @@ import { routePaths } from "../../constants/routePaths";
 import React from "react";
 
 interface Props {
-    component: React.ComponentType
+  component: React.ComponentType;
 }
 export const PrivateRoute = (props: Props) => {
-    return (AuthSession.isTokenSet() ? <props.component /> : <Navigate replace to={routePaths.authorization} />)
-}
+  return AuthSession.isTokenSet() ? (
+    <props.component />
+  ) : (
+    <Navigate replace to={routePaths.authorization} />
+  );
+};

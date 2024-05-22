@@ -1,4 +1,4 @@
 export interface CreateEmailTemplateRequest {
-    subject: string,
-    content: string
+  subject: string;
+  content: string;
 }

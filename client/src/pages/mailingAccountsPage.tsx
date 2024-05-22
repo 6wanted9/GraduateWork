@@ -3,9 +3,11 @@ import { MailingAccountsList } from "../components/mailingAccounts/mailingAccoun
 import { AddMailingAccountComponent } from "../components/mailingAccounts/addMailingAccountComponent";
 
 export const MailingAccountsPage = () => {
-    return (<div className="d-flex flex-column justify-content-center align-items-center">
-        <h1>Mailing Accounts</h1>
-        <MailingAccountsList />
-        <AddMailingAccountComponent />
-    </div>);
-}
+  return (
+    <div className="d-flex flex-column justify-content-center align-items-center">
+      <h1>Mailing Accounts</h1>
+      <MailingAccountsList />
+      <AddMailingAccountComponent />
+    </div>
+  );
+};

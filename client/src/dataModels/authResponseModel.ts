@@ -1,3 +1,3 @@
 export interface AuthResponseModel {
-    accessToken: string
+  accessToken: string;
 }

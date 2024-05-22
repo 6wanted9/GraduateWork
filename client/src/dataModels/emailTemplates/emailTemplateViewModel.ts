@@ -1,6 +1,6 @@
 import { EntityViewModel } from "../entityViewModel";
 
 export interface EmailTemplateViewModel extends EntityViewModel {
-    subject: string,
-    content: string
+  subject: string;
+  content: string;
 }

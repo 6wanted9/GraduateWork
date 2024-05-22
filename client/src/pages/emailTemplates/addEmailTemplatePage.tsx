@@ -2,8 +2,10 @@ import { EditEmailTemplate } from "../../components/emailTemplates/editEmailTemp
 import React from "react";
 
 export const AddEmailTemplatePage = () => {
-    return (<>
-        <h1>Email Templates / Add</h1>
-        <EditEmailTemplate/>
-    </>);
-}
+  return (
+    <>
+      <h1>Email Templates / Add</h1>
+      <EditEmailTemplate />
+    </>
+  );
+};

@@ -1,18 +1,18 @@
 export class Storage {
-    static get(key: string): Object | Array<any> | string | boolean | null {
-        const value = window.localStorage.getItem(key);
-        if (value && value !== 'undefined') {
-            return JSON.parse(value);
-        }
-
-        return null;
+  static get(key: string): Object | Array<any> | string | boolean | null {
+    const value = window.localStorage.getItem(key);
+    if (value && value !== "undefined") {
+      return JSON.parse(value);
     }
 
-    static set(key: string, data: string) {
-        window.localStorage.setItem(key, JSON.stringify(data));
-    }
+    return null;
+  }
 
-    static remove(key: string) {
-        window.localStorage.removeItem(key);
-    }
+  static set(key: string, data: string) {
+    window.localStorage.setItem(key, JSON.stringify(data));
+  }
+
+  static remove(key: string) {
+    window.localStorage.removeItem(key);
+  }
 }

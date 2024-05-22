@@ -7,28 +7,36 @@ import { EmailTemplateViewModel } from "../../dataModels/emailTemplates/emailTem
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 export const EditEmailTemplatePage = () => {
-    const { emailTemplateId } = useParams<{ emailTemplateId: string }>();
-    const [emailTemplate, setEmailTemplate] = useState<EmailTemplateViewModel>();
+  const { emailTemplateId } = useParams<{ emailTemplateId: string }>();
+  const [emailTemplate, setEmailTemplate] = useState<EmailTemplateViewModel>();
 
-    const getEmailTemplate = async () => {
-        if (emailTemplateId) {
-            const emailTemplate: EmailTemplateViewModel = await Api.get(apiUrls.emailTemplates.item(emailTemplateId));
-            setEmailTemplate(emailTemplate);
-        }
+  const getEmailTemplate = async () => {
+    if (emailTemplateId) {
+      const emailTemplate: EmailTemplateViewModel = await Api.get(
+        apiUrls.emailTemplates.item(emailTemplateId),
+      );
+      setEmailTemplate(emailTemplate);
     }
+  };
 
-    useEffect(() => {
-        try {
-            getEmailTemplate();
-        } catch (e) {
-            toast.error("Error occurred");
-        }
-    }, [emailTemplateId]);
+  useEffect(() => {
+    try {
+      getEmailTemplate();
+    } catch (e) {
+      toast.error("Error occurred");
+    }
+  }, [emailTemplateId]);
 
-    return (<>
-        <h1>Email Templates / Edit</h1>
-        {emailTemplate
-            ? <EditEmailTemplate emailTemplate={emailTemplate}/>
-            : <div className='d-flex flex-column justify-content-center align-items-center'><CircularProgress/></div>}
-    </>);
-}
+  return (
+    <>
+      <h1>Email Templates / Edit</h1>
+      {emailTemplate ? (
+        <EditEmailTemplate emailTemplate={emailTemplate} />
+      ) : (
+        <div className="d-flex flex-column justify-content-center align-items-center">
+          <CircularProgress />
+        </div>
+      )}
+    </>
+  );
+};

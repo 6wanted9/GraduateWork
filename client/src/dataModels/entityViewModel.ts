@@ -1,3 +1,3 @@
 export interface EntityViewModel {
-    id: string
+  id: string;
 }
