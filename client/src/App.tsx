@@ -16,6 +16,9 @@ import { AuthSession } from "./utils/AuthSession";
 AuthSession.updateHeader();
 
 const App = () => {
+  const defaultAuthorizedPath = routePaths.emailTemplates.path;
+  const defaultUnauthorizedPath = routePaths.authorization;
+
   return (
     <div className="App">
       <Router>
@@ -26,11 +29,10 @@ const App = () => {
               !AuthSession.isTokenSet() ? (
                 <AuthorizationPage />
               ) : (
-                <Navigate replace to={routePaths.mailingAccounts.path} />
+                <Navigate replace to={defaultAuthorizedPath} />
               )
             }
           />
-          {/*<Route path={routes.emailTemplates.path} Component={EmailTemplatesPage}/>*/}
           {/*<Route path={routes.usersGroups.path}  Component={UsersGroupsPage}/>*/}
           {PrivateRoutes.map((route, index) => (
             <Route
@@ -46,8 +48,8 @@ const App = () => {
                 replace
                 to={
                   AuthSession.isTokenSet()
-                    ? routePaths.mailingAccounts.path
-                    : routePaths.authorization
+                    ? defaultAuthorizedPath
+                    : defaultUnauthorizedPath
                 }
               />
             }
@@ -57,8 +59,6 @@ const App = () => {
             element={<Navigate replace to={routePaths.notFound} />}
           />
         </Routes>
-        {/*<LoginComponent/>*/}
-        {/*<AddMailingAccountComponent/>*/}
       </Router>
     </div>
   );

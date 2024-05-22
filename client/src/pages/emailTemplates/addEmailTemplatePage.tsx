@@ -1,10 +1,13 @@
 import { EditEmailTemplate } from "../../components/emailTemplates/editEmailTemplate";
 import React from "react";
+import { Typography } from "@mui/material";
 
 export const AddEmailTemplatePage = () => {
   return (
     <>
-      <h1>Email Templates / Add</h1>
+      <Typography variant="h4" gutterBottom>
+        EMAIL TEMPLATES / ADD
+      </Typography>
       <EditEmailTemplate />
     </>
   );

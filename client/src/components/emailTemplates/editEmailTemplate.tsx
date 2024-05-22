@@ -1,5 +1,5 @@
 import { Field, Form, Formik, FormikHelpers } from "formik";
-import { TextField, TextFieldProps } from "formik-mui";
+import { TextField } from "formik-mui";
 import { Button, CircularProgress, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { apiUrls } from "../../constants/api";
@@ -74,7 +74,7 @@ export const EditEmailTemplate = (props: Props) => {
               />
             </div>
             <div className="col">
-              <Typography fontWeight="bold" textAlign="center">
+              <Typography display="block" textAlign="center" variant="overline">
                 Preview
               </Typography>
             </div>

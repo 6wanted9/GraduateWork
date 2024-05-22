@@ -1,14 +1,10 @@
 import React, { Dispatch } from "react";
-import parse from "html-react-parser";
 import { EmailTemplateViewModel } from "../../dataModels/emailTemplates/emailTemplateViewModel";
 import { Box, Collapse, IconButton, TableCell, TableRow } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { DeleteButton } from "../layout/buttons/deleteButton";
 import { apiUrls } from "../../constants/api";
-import { useNavigate } from "react-router-dom";
-import { Edit } from "@mui/icons-material";
-import { getRoute } from "../../utils/routeUtils";
 import { routePaths } from "../../constants/routePaths";
 import { EditButton } from "../layout/buttons/editButton";
 

@@ -5,7 +5,8 @@ import { apiUrls } from "../../constants/api";
 import React, { useEffect, useState } from "react";
 import { EmailTemplateViewModel } from "../../dataModels/emailTemplates/emailTemplateViewModel";
 import { toast } from "react-toastify";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
+
 export const EditEmailTemplatePage = () => {
   const { emailTemplateId } = useParams<{ emailTemplateId: string }>();
   const [emailTemplate, setEmailTemplate] = useState<EmailTemplateViewModel>();
@@ -29,7 +30,9 @@ export const EditEmailTemplatePage = () => {
 
   return (
     <>
-      <h1>Email Templates / Edit</h1>
+      <Typography variant="h4" gutterBottom>
+        EMAIL TEMPLATES / EDIT
+      </Typography>
       {emailTemplate ? (
         <EditEmailTemplate emailTemplate={emailTemplate} />
       ) : (
