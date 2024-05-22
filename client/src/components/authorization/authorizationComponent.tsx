@@ -26,6 +26,7 @@ export const AuthorizationComponent = () => {
             AuthSession.login(token.accessToken);
             toast.success("Successfully logged in.");
         } catch (e) {
+            toast.error("Error occurred.");
             helpers.setSubmitting(false);
         }
     }
