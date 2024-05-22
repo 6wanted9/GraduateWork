@@ -15,7 +15,6 @@ export const AddMailingAccountComponent = () => {
     onSuccess: async (codeResponse) => {
       setTokenResponse(codeResponse);
     },
-    onError: () => console.log("Login Failed:"),
     flow: "auth-code",
     scope: "openid profile email https://www.googleapis.com/auth/gmail.send",
     overrideScope: true,

@@ -16,7 +16,6 @@ const Api = axios.create({
 
 Api.interceptors.request.use(
   async (config) => {
-    console.log(Api.defaults.headers.Authorization);
     return {
       ...config,
       url: config.url && encodeURI(config.url),
