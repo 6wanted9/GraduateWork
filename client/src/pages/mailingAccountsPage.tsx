@@ -5,7 +5,7 @@ import { MailingAccountViewModel } from "../dataModels/mailingAccounts/mailingAc
 import Api from "../utils/Api";
 import { apiUrls } from "../constants/api";
 import { toast } from "react-toastify";
-import { CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 export const MailingAccountsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -32,7 +32,10 @@ export const MailingAccountsPage = () => {
   }, []);
 
   return (
-    <div className="d-flex flex-column justify-content-center align-items-center">
+    <Box
+      sx={{ height: "100%" }}
+      className="d-flex flex-column justify-content-center align-items-center"
+    >
       <Typography variant="h2" gutterBottom>
         Mailing Accounts
       </Typography>
@@ -46,6 +49,6 @@ export const MailingAccountsPage = () => {
           />
         </>
       )}
-    </div>
+    </Box>
   );
 };

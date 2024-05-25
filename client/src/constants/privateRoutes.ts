@@ -4,6 +4,7 @@ import { MailingAccountsPage } from "../pages/mailingAccountsPage";
 import { EmailTemplatesPage } from "../pages/emailTemplates/emailTemplatesPage";
 import { AddEmailTemplatePage } from "../pages/emailTemplates/addEmailTemplatePage";
 import { EditEmailTemplatePage } from "../pages/emailTemplates/editEmailTemplatePage";
+import { SendEmailPage } from "../pages/sendEmailPage";
 
 export const PrivateRoutes: Array<RouteItem> = [
   // { path: routePaths.usersGroups.path, component: MailingAccountsPage },
@@ -11,4 +12,5 @@ export const PrivateRoutes: Array<RouteItem> = [
   { path: routePaths.emailTemplates.path, component: EmailTemplatesPage },
   { path: routePaths.emailTemplates.add, component: AddEmailTemplatePage },
   { path: routePaths.emailTemplates.edit, component: EditEmailTemplatePage },
+  { path: routePaths.sendEmail, component: SendEmailPage },
 ];

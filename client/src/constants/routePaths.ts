@@ -13,5 +13,5 @@ export const routePaths = {
   mailingAccounts: {
     path: "/mailing-accounts",
   },
-  sendEmail: "/send-emails",
+  sendEmail: "/send-email",
 };

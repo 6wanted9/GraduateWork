@@ -9,7 +9,7 @@ import { AreYouSurePopUp } from "../areYouSurePopUp";
 interface Props<T extends EntityViewModel> {
   entityId: string;
   endpoint: (id: string) => string;
-  stateSetter: Dispatch<React.SetStateAction<T[]>>;
+  entitiesListCallback: Dispatch<React.SetStateAction<T[]>>;
 }
 
 export const DeleteButton = <T extends EntityViewModel>(props: Props<T>) => {
@@ -21,7 +21,7 @@ export const DeleteButton = <T extends EntityViewModel>(props: Props<T>) => {
     try {
       const entityId = props.entityId;
       await Api.delete(props.endpoint(entityId));
-      props.stateSetter((prevState) =>
+      props.entitiesListCallback((prevState) =>
         prevState.filter((value) => value.id !== entityId),
       );
     } catch (e) {
