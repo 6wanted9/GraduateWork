@@ -22,10 +22,10 @@ import { routePaths } from "../../constants/routePaths";
 
 export const EmailTemplatesList = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
   const [emailTemplates, setEmailTemplates] = useState<
     Array<EmailTemplateViewModel>
   >([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   const getEmailTemplates = async () => {
     try {
@@ -34,9 +34,10 @@ export const EmailTemplatesList = () => {
       );
 
       setEmailTemplates(templates);
-      setIsLoading(false);
     } catch (e) {
-      toast.error("Some error");
+      toast.error("Error occurred.");
+    } finally {
+      setIsLoading(false);
     }
   };
 

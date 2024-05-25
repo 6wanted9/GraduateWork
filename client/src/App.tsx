@@ -12,6 +12,7 @@ import "./App.css";
 import { PrivateRoute } from "./components/layout/privateRoute";
 import { PrivateRoutes } from "./constants/privateRoutes";
 import { AuthSession } from "./utils/AuthSession";
+import { NavigationBar } from "./components/layout/navigationBar";
 
 AuthSession.updateHeader();
 
@@ -22,43 +23,45 @@ const App = () => {
   return (
     <div className="App">
       <Router>
-        <Routes>
-          <Route
-            path={routePaths.authorization}
-            element={
-              !AuthSession.isTokenSet() ? (
-                <AuthorizationPage />
-              ) : (
-                <Navigate replace to={defaultAuthorizedPath} />
-              )
-            }
-          />
-          {/*<Route path={routes.usersGroups.path}  Component={UsersGroupsPage}/>*/}
-          {PrivateRoutes.map((route, index) => (
+        <NavigationBar>
+          <Routes>
             <Route
-              key={index}
-              path={route.path}
-              element={PrivateRoute({ component: route.component })}
+              path={routePaths.authorization}
+              element={
+                !AuthSession.isTokenSet() ? (
+                  <AuthorizationPage />
+                ) : (
+                  <Navigate replace to={defaultAuthorizedPath} />
+                )
+              }
             />
-          ))}
-          <Route
-            path={routePaths.home}
-            element={
-              <Navigate
-                replace
-                to={
-                  AuthSession.isTokenSet()
-                    ? defaultAuthorizedPath
-                    : defaultUnauthorizedPath
-                }
+            {/*<Route path={routes.usersGroups.path}  Component={UsersGroupsPage}/>*/}
+            {PrivateRoutes.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                element={PrivateRoute({ component: route.component })}
               />
-            }
-          />
-          <Route
-            path="*"
-            element={<Navigate replace to={routePaths.notFound} />}
-          />
-        </Routes>
+            ))}
+            <Route
+              path={routePaths.home}
+              element={
+                <Navigate
+                  replace
+                  to={
+                    AuthSession.isTokenSet()
+                      ? defaultAuthorizedPath
+                      : defaultUnauthorizedPath
+                  }
+                />
+              }
+            />
+            <Route
+              path="*"
+              element={<Navigate replace to={routePaths.notFound} />}
+            />
+          </Routes>
+        </NavigationBar>
       </Router>
     </div>
   );
