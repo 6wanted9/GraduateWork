@@ -1,5 +1,6 @@
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
+using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Gmail.v1;
 using GraduateWorkApi.Interfaces;
 using GraduateWorkApi.Models;
@@ -22,6 +23,15 @@ internal class GoogleAuthenticationService : IGoogleAuthenticationService
     {
         var authFlow = GenerateAuthFlow();
         return authFlow.ExchangeCodeForTokenAsync(null, code, "postmessage", CancellationToken.None);
+    }
+    
+    public async Task Logout(Guid mailingAccountId)
+    {
+        var tokenKey = mailingAccountId.ToString();
+        var token = await _mailingAccountManagementService.GetAsync<TokenResponse>(tokenKey);
+        var authFlow = GenerateAuthFlow();
+        
+        await authFlow.RevokeTokenAsync(tokenKey, token.RefreshToken, CancellationToken.None);
     }
     
     public async Task<UserCredential> GetCredentials(Guid accountId)

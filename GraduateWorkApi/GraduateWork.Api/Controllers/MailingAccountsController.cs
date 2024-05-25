@@ -38,14 +38,11 @@ public class MailingAccountsController : ControllerBase
     
     [Authorize]
     [HttpDelete]
+    [Route("{mailingAccountId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> Delete([FromBody] EntityModel request)
+    public async Task<IActionResult> Delete([FromRoute] Guid mailingAccountId)
     {
-        var result = await _mailingAccountsRepository.Delete(request.Id);
-        if (result.IsError)
-        {
-            return NotFound();
-        }
+        await _googleAuthenticationService.Logout(mailingAccountId);
 
         return Ok();
     }

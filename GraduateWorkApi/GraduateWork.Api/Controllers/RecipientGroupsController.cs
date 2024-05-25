@@ -56,10 +56,11 @@ public class RecipientGroupsController : ControllerBase
     
     [Authorize]
     [HttpDelete]
+    [Route("{recipientGroupId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> Delete([FromBody] EntityModel request)
+    public async Task<IActionResult> Delete([FromRoute] Guid recipientGroupId)
     {
-        var result = await _recipientGroupsRepository.Delete(request.Id);
+        var result = await _recipientGroupsRepository.Delete(recipientGroupId);
         if (result.IsError)
         {
             return NotFound();

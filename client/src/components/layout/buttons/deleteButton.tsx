@@ -5,11 +5,13 @@ import { EntityViewModel } from "../../../dataModels/entityViewModel";
 import { toast } from "react-toastify";
 import Api from "../../../utils/Api";
 import { AreYouSurePopUp } from "../areYouSurePopUp";
+import SvgIcon from "@mui/material/SvgIcon/SvgIcon";
 
 interface Props<T extends EntityViewModel> {
   entityId: string;
   endpoint: (id: string) => string;
   entitiesListCallback: Dispatch<React.SetStateAction<T[]>>;
+  customIcon?: React.ReactNode;
 }
 
 export const DeleteButton = <T extends EntityViewModel>(props: Props<T>) => {
@@ -24,6 +26,8 @@ export const DeleteButton = <T extends EntityViewModel>(props: Props<T>) => {
       props.entitiesListCallback((prevState) =>
         prevState.filter((value) => value.id !== entityId),
       );
+
+      toast.success("Operation was completed successfully.");
     } catch (e) {
       toast.error("Something went wrong");
     }
@@ -36,7 +40,7 @@ export const DeleteButton = <T extends EntityViewModel>(props: Props<T>) => {
         onClick={() => setIsConfirmationOpened(true)}
         ref={buttonReference}
       >
-        <Delete />
+        {props.customIcon ?? <Delete />}
       </IconButton>
       <AreYouSurePopUp
         action={deleteEntity}

@@ -43,7 +43,10 @@ export const MailingAccountsPage = () => {
         <CircularProgress />
       ) : (
         <>
-          <MailingAccountsList mailingAccounts={mailingAccounts} />
+          <MailingAccountsList
+            mailingAccounts={mailingAccounts}
+            mailingAccountsCallback={setMailingAccounts}
+          />
           <AddMailingAccountComponent
             refetchMailingAccounts={getMailingAccounts}
           />

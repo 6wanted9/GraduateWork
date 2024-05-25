@@ -1,20 +1,51 @@
 import { MailingAccountViewModel } from "../../dataModels/mailingAccounts/mailingAccountViewModel";
-import React from "react";
-import { Avatar } from "@mui/material";
+import React, { Dispatch } from "react";
+import { Avatar, Badge } from "@mui/material";
+import Api from "../../utils/Api";
+import { apiUrls } from "../../constants/api";
+import { toast } from "react-toastify";
+import { Logout } from "@mui/icons-material";
+import { DeleteButton } from "../layout/buttons/deleteButton";
+import { styled } from "@mui/material/styles";
 
 interface Props {
   account: MailingAccountViewModel;
+  mailingAccountsCallback: Dispatch<
+    React.SetStateAction<MailingAccountViewModel[]>
+  >;
 }
+
+const StyledLogoutIcon = styled(Logout)(({ theme }) => ({
+  border: "1px solid gray",
+  color: "gray",
+  borderRadius: "100%",
+  backgroundColor: "white",
+  padding: "5px",
+}));
+
 export const MailingAccountItem = (props: Props) => {
+  const getDeleteButton = () => {
+    return (
+      <DeleteButton
+        entityId={props.account.id}
+        endpoint={apiUrls.mailingAccounts.item}
+        entitiesListCallback={props.mailingAccountsCallback}
+        customIcon={<StyledLogoutIcon />}
+      />
+    );
+  };
+
   return (
     <div className="d-flex flex-column align-items-center m-2">
-      <Avatar
-        className="mb-2"
-        sx={{ width: 100, height: 100 }}
-        src={props.account.picture}
-        alt="FAILED"
-        slotProps={{ img: { referrerPolicy: "no-referrer" } }}
-      />
+      <Badge overlap="circular" badgeContent={getDeleteButton()}>
+        <Avatar
+          className="mb-2"
+          sx={{ width: 100, height: 100 }}
+          src={props.account.picture}
+          alt="FAILED"
+          slotProps={{ img: { referrerPolicy: "no-referrer" } }}
+        />
+      </Badge>
       <div className="d-flex flex-column align-items-start">
         <span>
           <b>Name:</b> {props.account.name}
