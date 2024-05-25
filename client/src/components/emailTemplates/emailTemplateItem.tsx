@@ -26,7 +26,7 @@ export const EmailTemplateItem = (props: Props) => {
       className="d-flex flex-row justify-content-between"
     >
       <Typography>{props.template.subject}</Typography>
-      <Box>
+      <Box className="d-flex flex-row">
         <EditButton
           entityId={props.template.id}
           editPagePath={routePaths.emailTemplates.edit}
