@@ -7,8 +7,9 @@ export const routePaths = {
     add: "/email-templates/add",
     edit: `/email-templates/edit/:emailTemplateId`,
   },
-  usersGroups: {
-    path: "/users-groups",
+  recipientGroups: {
+    path: "/recipients-groups",
+    edit: `/recipients-groups/edit/:recipientGroupId`,
   },
   mailingAccounts: {
     path: "/mailing-accounts",

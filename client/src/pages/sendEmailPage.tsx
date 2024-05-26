@@ -1,21 +1,20 @@
-import { Field, Form, Formik, FormikHelpers } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import {
   Badge,
   Box,
   Button,
+  Chip,
   CircularProgress,
   Step,
   StepLabel,
   Stepper,
   Typography,
 } from "@mui/material";
-import { Editor } from "@monaco-editor/react";
 import React, { ReactNode, useEffect } from "react";
 import { toast } from "react-toastify";
 import Api from "../utils/Api";
 import { apiUrls } from "../constants/api";
 import { routePaths } from "../constants/routePaths";
-import { SendEmailRequest } from "../dataModels/sendEmailRequest";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { SendEmailSteps } from "../constants/sendEmail/sendEmailSteps";
@@ -53,7 +52,7 @@ const getComponentWithBadge = (
         </Typography>
       }
       overlap="circular"
-      className={`${baseClass} h-100 ${useMargin ? "me-3" : ""}`}
+      className={`${baseClass} ${useMargin ? "me-3" : ""} h-100`}
       sx={{ backgroundColor: "whitesmoke", width: "calc(50% - 0.5rem)" }}
     >
       {children}
@@ -80,18 +79,18 @@ export const SendEmailPage = () => {
   const [currentComponent, setCurrentComponent] =
     React.useState<SendEmailStep>();
 
-  const MapStepToTargetItem = (model: SendEmailModel) => {
-    if (currentStep === 0) {
-      return model.mailingAccount;
-    } else if (currentStep === 1) {
-      return model.emailTemplate;
+  const MapStepToTargetItem = (step: number) => {
+    if (step === 0) {
+      return "mailingAccount";
+    } else if (step === 1) {
+      return "emailTemplate";
     } else {
-      return model.recipientGroup;
+      return "recipientGroup";
     }
   };
 
   const isNextStepAvailable = (model: SendEmailModel) => {
-    const targetItem = MapStepToTargetItem(model);
+    const targetItem = model[MapStepToTargetItem(currentStep)];
 
     return !!targetItem;
   };
@@ -102,8 +101,13 @@ export const SendEmailPage = () => {
     }
   };
 
-  const handlePreviousStep = () => {
-    setCurrentStep((current) => current - 1);
+  const handlePreviousStep = (model: SendEmailModel) => {
+    const current = currentStep;
+    const previous = current - 1;
+    model[MapStepToTargetItem(current)] = undefined;
+    model[MapStepToTargetItem(previous)] = undefined;
+
+    setCurrentStep(previous);
   };
 
   const initialValues: SendEmailModel = {
@@ -117,15 +121,18 @@ export const SendEmailPage = () => {
     helpers: FormikHelpers<SendEmailModel>,
   ) => {
     try {
-      if (
-        !request.mailingAccount?.id ||
-        !request.emailTemplate?.id ||
-        !request.recipientGroup?.id
-      ) {
+      const mailingAccountId = request.mailingAccount?.id;
+      const emailTemplateId = request.emailTemplate?.id;
+      const recipientGroupId = request.recipientGroup?.id;
+      if (!mailingAccountId || !emailTemplateId || !recipientGroupId) {
         return toast.error("Not all data filled.");
       }
 
-      await Api.post(apiUrls.emailManagement.send, request);
+      await Api.post(apiUrls.emailManagement.send, {
+        mailingAccountId,
+        emailTemplateId,
+        recipientGroupId,
+      });
 
       toast.success(`Email was successfully sent.`);
 
@@ -198,11 +205,21 @@ export const SendEmailPage = () => {
                 )}
                 {getComponentWithBadge(
                   "Recipients",
-                  <Typography variant="overline">
-                    {!!helpers.values.recipientGroup?.recipients
-                      ? helpers.values.recipientGroup.recipients.join(";")
-                      : "Complete last step to see..."}
-                  </Typography>,
+                  !!helpers.values.recipientGroup?.recipients ? (
+                    <Box
+                      className={`d-flex align-items-center flex-row h-100 w-100 overflow-scroll`}
+                    >
+                      {helpers.values.recipientGroup.recipients.map(
+                        (recipient, index) => (
+                          <Chip className="m-1" key={index} label={recipient} />
+                        ),
+                      )}
+                    </Box>
+                  ) : (
+                    <Typography variant="overline">
+                      "Complete last step to see..."
+                    </Typography>
+                  ),
                 )}
               </Box>
               <Box
@@ -230,7 +247,7 @@ export const SendEmailPage = () => {
             sx={{ height: "calc(10% - 2rem)" }}
           >
             <Button
-              onClick={handlePreviousStep}
+              onClick={() => handlePreviousStep(helpers.values)}
               fullWidth
               variant="outlined"
               size="large"

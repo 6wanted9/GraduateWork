@@ -57,6 +57,7 @@ internal class GoogleAuthenticationService : IGoogleAuthenticationService
                 ClientSecret = _googleAuthConfig.ClientSecret
             },
             DataStore = _mailingAccountManagementService,
+            Scopes = new[] { "openid", "profile", "email", GmailService.Scope.GmailSend }
         });
     }
 }

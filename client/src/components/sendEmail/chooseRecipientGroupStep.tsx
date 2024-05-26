@@ -1,30 +1,29 @@
 import { SendEmailProps } from "../../constants/sendEmail/sendEmailProps";
 import React, { useEffect, useState } from "react";
-import { EmailTemplateViewModel } from "../../dataModels/emailTemplates/emailTemplateViewModel";
 import Api from "../../utils/Api";
 import { apiUrls } from "../../constants/api";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 import List from "@mui/material/List";
-import { EmailTemplateItem } from "../emailTemplates/emailTemplateItem";
+import { RecipientGroupViewModel } from "../../dataModels/recipientGroups/recipientGroupViewModel";
+import { RecipientGroupItem } from "../recipientGroups/recipientGroupItem";
 
-export const ChooseEmailTemplateStep = (props: SendEmailProps) => {
+export const ChooseRecipientGroupStep = (props: SendEmailProps) => {
   const [isLoading, setIsLoading] = useState(true);
 
-  const [selectedTemplate, setSelectedTemplate] =
-    useState<EmailTemplateViewModel>();
+  const [selectedGroup, setSelectedGroup] = useState<RecipientGroupViewModel>();
 
-  const [emailTemplates, setEmailTemplates] = useState<
-    Array<EmailTemplateViewModel>
+  const [recipientGroups, setRecipientGroups] = useState<
+    Array<RecipientGroupViewModel>
   >([]);
 
-  const getEmailTemplates = async () => {
+  const getRecipientGroups = async () => {
     try {
-      const templates: Array<EmailTemplateViewModel> = await Api.get(
-        apiUrls.emailTemplates.list,
+      const groups: Array<RecipientGroupViewModel> = await Api.get(
+        apiUrls.recipientGroups.list,
       );
 
-      setEmailTemplates(templates);
+      setRecipientGroups(groups);
     } catch (e) {
       toast.error("Error occurred.");
     } finally {
@@ -33,12 +32,12 @@ export const ChooseEmailTemplateStep = (props: SendEmailProps) => {
   };
 
   useEffect(() => {
-    getEmailTemplates();
+    getRecipientGroups();
   }, []);
 
   useEffect(() => {
-    props.setValue("emailTemplate", selectedTemplate);
-  }, [selectedTemplate]);
+    props.setValue("recipientGroup", selectedGroup);
+  }, [selectedGroup]);
 
   return isLoading ? (
     <div className="d-flex flex-column justify-content-center align-items-center rounded-4">
@@ -50,12 +49,12 @@ export const ChooseEmailTemplateStep = (props: SendEmailProps) => {
       className="h-100 w-100 overflow-auto me-3 rounded-4"
       sx={{ backgroundColor: "whitesmoke" }}
     >
-      {emailTemplates.map((emailTemplate, index) => (
-        <EmailTemplateItem
+      {recipientGroups.map((recipientGroup, index) => (
+        <RecipientGroupItem
           key={index}
-          template={emailTemplate}
-          selectedTemplate={selectedTemplate}
-          selectTemplateCallback={setSelectedTemplate}
+          group={recipientGroup}
+          selectedGroup={selectedGroup}
+          selectGroupCallback={setSelectedGroup}
         />
       ))}
     </List>

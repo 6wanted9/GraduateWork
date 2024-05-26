@@ -20,7 +20,7 @@ export const NavigationBarItems: Array<NavigationBarItem> = [
   },
   {
     name: "Users Groups",
-    path: routePaths.usersGroups.path,
+    path: routePaths.recipientGroups.path,
     icon: Groups,
   },
   {

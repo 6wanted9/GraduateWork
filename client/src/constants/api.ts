@@ -13,6 +13,10 @@ const apiUrls = {
     list: "/api/EmailTemplates",
     item: (id: string) => `/api/EmailTemplates/${id}`,
   },
+  recipientGroups: {
+    list: "/api/RecipientGroups",
+    item: (id: string) => `/api/RecipientGroups/${id}`,
+  },
   emailManagement: {
     send: "api/EmailManagement/send",
   },
