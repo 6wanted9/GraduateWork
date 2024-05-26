@@ -5,7 +5,6 @@ import { EntityViewModel } from "../../../dataModels/entityViewModel";
 import { toast } from "react-toastify";
 import Api from "../../../utils/Api";
 import { AreYouSurePopUp } from "../areYouSurePopUp";
-import SvgIcon from "@mui/material/SvgIcon/SvgIcon";
 
 interface Props<T extends EntityViewModel> {
   entityId: string;

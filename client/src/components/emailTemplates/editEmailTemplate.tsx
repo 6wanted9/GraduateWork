@@ -1,6 +1,6 @@
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { TextField } from "formik-mui";
-import { Button, CircularProgress, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { apiUrls } from "../../constants/api";
 import Api from "../../utils/Api";
@@ -11,10 +11,19 @@ import { EmailTemplateViewModel } from "../../dataModels/emailTemplates/emailTem
 import { useNavigate } from "react-router-dom";
 import { routePaths } from "../../constants/routePaths";
 import { Editor } from "@monaco-editor/react";
+import { styled } from "@mui/material/styles";
 
 interface Props {
   emailTemplate?: EmailTemplateViewModel;
 }
+
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  "& .MuiInputBase-root": {
+    backgroundColor: "white",
+    height: "100%",
+    borderRadius: "1rem",
+  },
+}));
 
 const ValidationSchema = Yup.object().shape({
   subject: Yup.string().required("Required"),
@@ -62,53 +71,82 @@ export const EditEmailTemplate = (props: Props) => {
       onSubmit={onSubmit}
     >
       {({ isSubmitting, values, handleChange }) => (
-        <Form className="container">
-          <div className="row">
-            <div className="col">
-              <Field
-                type="text"
-                name="subject"
-                label="Subject"
-                component={TextField}
-                className="w-100"
-              />
-            </div>
-            <div className="col">
-              <Typography display="block" textAlign="center" variant="overline">
-                Preview
-              </Typography>
-            </div>
-          </div>
-          <div className="row mt-2">
-            <div className="col overflow-auto">
-              <Editor
-                loading={<CircularProgress />}
-                theme="vs-dark"
-                onChange={(value, event) => {
-                  const newContent = value ?? "";
-                  values.content = newContent;
-                  setContent(newContent);
+        <Form className="d-flex flex-column rounded-4 h-100">
+          <Box className="d-flex flex-row rounded-4" sx={{ height: "90%" }}>
+            <Box className="d-flex flex-column rounded-4 h-100 w-50 me-3">
+              <Box
+                className="w-100 mb-3 rounded-4"
+                sx={{ height: "10%", backgroundColor: "whitesmoke" }}
+              >
+                <Field
+                  type="text"
+                  name="subject"
+                  label="Subject"
+                  component={StyledTextField}
+                  className="h-100 w-100 rounded-4"
+                />
+              </Box>
+              <Box
+                className="overflow-auto rounded-4"
+                sx={{
+                  height: "calc(90% - 1rem)",
+                  backgroundColor: "whitesmoke",
                 }}
-                defaultValue={values.content}
-                defaultLanguage="html"
-                height="70vh"
-              />
-            </div>
-            <div className="col">
-              <iframe className="w-100 h-100" srcDoc={content} />
-            </div>
-          </div>
-          <div className="row my-5">
+              >
+                <Editor
+                  loading={<CircularProgress />}
+                  theme="vs-dark"
+                  onChange={(value, event) => {
+                    const newContent = value ?? "";
+                    values.content = newContent;
+                    setContent(newContent);
+                  }}
+                  options={{
+                    minimap: { enabled: false },
+                    automaticLayout: true,
+                  }}
+                  defaultValue={values.content}
+                  defaultLanguage="html"
+                  className="rounded-4 position-absolute h-100"
+                />
+              </Box>
+            </Box>
+            <Box className="d-flex flex-column h-100 w-50 rounded-4">
+              <Box
+                className="d-flex flex-row justify-content-center align-items-center mb-3 rounded-4"
+                sx={{ height: "10%", backgroundColor: "whitesmoke" }}
+              >
+                <Typography>Preview</Typography>
+              </Box>
+              <Box
+                className="d-flex flex-column justify-content-center align-items-center overflow-auto rounded-4"
+                sx={{
+                  height: "calc(90% - 1rem)",
+                  backgroundColor: "whitesmoke",
+                }}
+              >
+                {!!content ? (
+                  <iframe className="w-100 h-100" srcDoc={content} />
+                ) : (
+                  <Typography variant="overline">
+                    Please, start typing for preview.
+                  </Typography>
+                )}{" "}
+              </Box>
+            </Box>
+          </Box>
+          <Box className="my-3 rounded-4" sx={{ height: "calc(10% - 2rem)" }}>
             <Button
               fullWidth
               variant="outlined"
               size="large"
               type="submit"
               disabled={isSubmitting}
+              className="rounded-4 h-100"
             >
               {"Submit"}
             </Button>
-          </div>
+          </Box>
         </Form>
       )}
     </Formik>
