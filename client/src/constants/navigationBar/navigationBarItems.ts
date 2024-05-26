@@ -24,8 +24,8 @@ export const NavigationBarItems: Array<NavigationBarItem> = [
     icon: Groups,
   },
   {
-    name: "Send Emails",
-    path: routePaths.usersGroups.path,
+    name: "Send Email",
+    path: routePaths.sendEmail,
     icon: Send,
   },
 ];

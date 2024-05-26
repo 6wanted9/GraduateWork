@@ -13,6 +13,9 @@ const apiUrls = {
     list: "/api/EmailTemplates",
     item: (id: string) => `/api/EmailTemplates/${id}`,
   },
+  emailManagement: {
+    send: "api/EmailManagement/send",
+  },
 };
 
 export { apiUrls, apiBaseUrl };

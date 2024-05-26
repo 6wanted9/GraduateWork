@@ -132,7 +132,7 @@ export const EditEmailTemplate = (props: Props) => {
                   <Typography variant="overline">
                     Please, start typing for preview.
                   </Typography>
-                )}{" "}
+                )}
               </Box>
             </Box>
           </Box>

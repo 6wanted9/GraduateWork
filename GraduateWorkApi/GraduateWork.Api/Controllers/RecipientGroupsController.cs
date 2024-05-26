@@ -2,6 +2,7 @@ using AutoMapper;
 using GraduateWork.Infrastructure.Entities;
 using GraduateWorkApi.Interfaces;
 using GraduateWorkApi.Models;
+using GraduateWorkApi.Models.RecipientGroups;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +27,28 @@ public class RecipientGroupsController : ControllerBase
         _recipientGroupsRepository = recipientGroupsRepository;
     }
 
+    
+    [Authorize]
+    [HttpGet]
+    [Route("{recipientGroupId}")]
+    [ProducesResponseType(typeof(List<RecipientGroupViewModel>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Get([FromRoute] Guid recipientGroupId)
+    {
+        var recipientGroups = await _recipientGroupsRepository.Get(t => t.Id == recipientGroupId);
+
+        return Ok(_mapper.Map<RecipientGroupViewModel>(recipientGroups.SingleOrDefault()));
+    }
+    
+    [Authorize]
+    [HttpGet]
+    [ProducesResponseType(typeof(RecipientGroupViewModel), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Get()
+    {
+        var emailTemplates = await _recipientGroupsRepository.Get();
+
+        return Ok(_mapper.Map<List<RecipientGroupViewModel>>(emailTemplates));
+    }
+    
     [Authorize]
     [HttpPost]
     [ProducesResponseType(typeof(EntityModel), StatusCodes.Status200OK)]

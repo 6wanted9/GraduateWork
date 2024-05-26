@@ -45,7 +45,9 @@ export const MailingAccountsPage = () => {
         <>
           <MailingAccountsList
             mailingAccounts={mailingAccounts}
-            mailingAccountsCallback={setMailingAccounts}
+            editActions={{
+              mailingAccountsCallback: setMailingAccounts,
+            }}
           />
           <AddMailingAccountComponent
             refetchMailingAccounts={getMailingAccounts}

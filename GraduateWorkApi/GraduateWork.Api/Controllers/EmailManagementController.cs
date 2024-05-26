@@ -18,12 +18,12 @@ public class EmailManagementController : ControllerBase
     }
     
     [Authorize]
-    [HttpGet]
-    [Route("{mailingAccountId}/send")]
+    [HttpPost]
+    [Route("send")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> Send([FromRoute] Guid mailingAccountId, [FromBody] SendEmailRequestModel request)
+    public async Task<IActionResult> Send([FromBody] SendEmailRequestModel request)
     {
-        var result = await _emailSender.Send(mailingAccountId, request.EmailTemplateId, request.RecipientGroupId);
+        var result = await _emailSender.Send(request.MailingAccountId, request.EmailTemplateId, request.RecipientGroupId);
         if (result.IsError)
         {
             return BadRequest(result.Error);

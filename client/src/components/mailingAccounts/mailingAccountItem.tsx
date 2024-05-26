@@ -1,18 +1,17 @@
 import { MailingAccountViewModel } from "../../dataModels/mailingAccounts/mailingAccountViewModel";
 import React, { Dispatch } from "react";
 import { Avatar, Badge } from "@mui/material";
-import Api from "../../utils/Api";
 import { apiUrls } from "../../constants/api";
-import { toast } from "react-toastify";
 import { Logout } from "@mui/icons-material";
 import { DeleteButton } from "../layout/buttons/deleteButton";
 import { styled } from "@mui/material/styles";
 
 interface Props {
   account: MailingAccountViewModel;
-  mailingAccountsCallback: Dispatch<
+  mailingAccountsCallback?: Dispatch<
     React.SetStateAction<MailingAccountViewModel[]>
   >;
+  onClick?: (value: MailingAccountViewModel) => Promise<void>;
 }
 
 const StyledLogoutIcon = styled(Logout)(({ theme }) => ({
@@ -25,6 +24,10 @@ const StyledLogoutIcon = styled(Logout)(({ theme }) => ({
 
 export const MailingAccountItem = (props: Props) => {
   const getDeleteButton = () => {
+    if (!props.mailingAccountsCallback) {
+      return;
+    }
+
     return (
       <DeleteButton
         entityId={props.account.id}
@@ -36,7 +39,10 @@ export const MailingAccountItem = (props: Props) => {
   };
 
   return (
-    <div className="d-flex flex-column align-items-center m-2">
+    <div
+      onClick={() => props.onClick?.(props.account)}
+      className="d-flex flex-column align-items-center m-2"
+    >
       <Badge overlap="circular" badgeContent={getDeleteButton()}>
         <Avatar
           className="mb-2"
