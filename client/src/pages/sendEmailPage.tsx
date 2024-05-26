@@ -217,7 +217,7 @@ export const SendEmailPage = () => {
                     </Box>
                   ) : (
                     <Typography variant="overline">
-                      "Complete last step to see..."
+                      Complete last step to see...
                     </Typography>
                   ),
                 )}
