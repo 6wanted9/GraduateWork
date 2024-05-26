@@ -1,5 +1,6 @@
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import {
+  Badge,
   Box,
   Button,
   CircularProgress,
@@ -9,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Editor } from "@monaco-editor/react";
-import React, { useEffect } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { toast } from "react-toastify";
 import Api from "../utils/Api";
 import { apiUrls } from "../constants/api";
@@ -30,6 +31,35 @@ interface SendEmailModel {
 }
 
 const baseClass = "d-flex justify-content-center align-items-center rounded-4";
+
+const getComponentWithBadge = (
+  badgeContent: string,
+  children: ReactNode,
+  useMargin: boolean = false,
+) => {
+  return (
+    <Badge
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "left",
+      }}
+      badgeContent={
+        <Typography
+          className="bg-white mb-3 rounded-5 p-1"
+          variant="overline"
+          fontSize={8}
+        >
+          {badgeContent}
+        </Typography>
+      }
+      overlap="circular"
+      className={`${baseClass} h-100 ${useMargin ? "me-3" : ""}`}
+      sx={{ backgroundColor: "whitesmoke", width: "calc(50% - 0.5rem)" }}
+    >
+      {children}
+    </Badge>
+  );
+};
 
 const getValueSetter = (helpers: FormikHelpers<SendEmailModel>) => {
   return async (field: string, value: any) => {
@@ -157,26 +187,23 @@ export const SendEmailPage = () => {
                 className={`${baseClass} flex-row mb-3`}
                 sx={{ height: "10%" }}
               >
-                <Box
-                  className={`${baseClass} h-100 w-50 me-3`}
-                  sx={{ backgroundColor: "whitesmoke" }}
-                >
+                {getComponentWithBadge(
+                  "Sender",
                   <Typography variant="overline">
                     {!!helpers.values.mailingAccount?.email
                       ? helpers.values.mailingAccount.email
-                      : "Here will be displayed email."}
-                  </Typography>
-                </Box>
-                <Box
-                  className={`${baseClass} h-100 w-50`}
-                  sx={{ backgroundColor: "whitesmoke" }}
-                >
+                      : "Complete first step to see..."}
+                  </Typography>,
+                  true,
+                )}
+                {getComponentWithBadge(
+                  "Recipients",
                   <Typography variant="overline">
                     {!!helpers.values.recipientGroup?.recipients
                       ? helpers.values.recipientGroup.recipients.join(";")
-                      : "Here will be displayed recipients"}
-                  </Typography>
-                </Box>
+                      : "Complete last step to see..."}
+                  </Typography>,
+                )}
               </Box>
               <Box
                 className={`${baseClass} flex-column overflow-auto`}

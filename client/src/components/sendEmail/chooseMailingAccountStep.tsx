@@ -28,6 +28,7 @@ export const ChooseMailingAccountStep = (props: SendEmailProps) => {
   };
 
   useEffect(() => {
+    props.setValue("mailingAccount", undefined);
     getMailingAccounts();
   }, []);
 

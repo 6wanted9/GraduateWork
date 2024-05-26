@@ -9,7 +9,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 
 interface Props {
   template: EmailTemplateViewModel;
-  emailTemplatesListCallback: Dispatch<
+  emailTemplatesListCallback?: Dispatch<
     React.SetStateAction<EmailTemplateViewModel[]>
   >;
 
@@ -19,6 +19,8 @@ interface Props {
   >;
 }
 export const EmailTemplateItem = (props: Props) => {
+  const emailTemplatesListCallback = props.emailTemplatesListCallback;
+
   return (
     <ListItemButton
       selected={props.selectedTemplate === props.template}
@@ -26,17 +28,19 @@ export const EmailTemplateItem = (props: Props) => {
       className="d-flex flex-row justify-content-between"
     >
       <Typography>{props.template.subject}</Typography>
-      <Box className="d-flex flex-row">
-        <EditButton
-          entityId={props.template.id}
-          editPagePath={routePaths.emailTemplates.edit}
-        />
-        <DeleteButton
-          entityId={props.template.id}
-          endpoint={apiUrls.emailTemplates.item}
-          entitiesListCallback={props.emailTemplatesListCallback}
-        />
-      </Box>
+      {emailTemplatesListCallback && (
+        <Box className="d-flex flex-row">
+          <EditButton
+            entityId={props.template.id}
+            editPagePath={routePaths.emailTemplates.edit}
+          />
+          <DeleteButton
+            entityId={props.template.id}
+            endpoint={apiUrls.emailTemplates.item}
+            entitiesListCallback={emailTemplatesListCallback}
+          />
+        </Box>
+      )}
     </ListItemButton>
   );
 };
