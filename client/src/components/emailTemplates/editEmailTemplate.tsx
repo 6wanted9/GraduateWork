@@ -27,7 +27,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 
 const ValidationSchema = Yup.object().shape({
   subject: Yup.string().required("Required"),
-  content: Yup.string().required("Required"),
+  content: Yup.string(),
 });
 
 export const EditEmailTemplate = (props: Props) => {
@@ -41,6 +41,10 @@ export const EditEmailTemplate = (props: Props) => {
     helpers: FormikHelpers<CreateEmailTemplateRequest>,
   ) => {
     try {
+      if (!request.content) {
+        return toast.error("Content cannot be empty.");
+      }
+
       const editingExistingEntity = !!emailTemplate;
       const method = editingExistingEntity ? Api.patch : Api.post;
 
@@ -74,10 +78,7 @@ export const EditEmailTemplate = (props: Props) => {
         <Form className="d-flex flex-column rounded-4 h-100">
           <Box className="d-flex flex-row rounded-4" sx={{ height: "90%" }}>
             <Box className="d-flex flex-column rounded-4 h-100 w-50 me-3">
-              <Box
-                className="w-100 mb-3 rounded-4"
-                sx={{ height: "10%", backgroundColor: "whitesmoke" }}
-              >
+              <Box className="w-100 mb-3 rounded-4" sx={{ height: "10%" }}>
                 <Field
                   type="text"
                   name="subject"
