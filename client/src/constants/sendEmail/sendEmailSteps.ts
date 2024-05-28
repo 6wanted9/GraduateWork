@@ -5,14 +5,17 @@ import { ChooseRecipientGroupStep } from "../../components/sendEmail/chooseRecip
 
 export const SendEmailSteps: Array<SendEmailStep> = [
   {
-    label: "Choose Mailing Account",
-    component: ChooseMailingAccountStep,
-  },
-  {
+    field: "emailTemplate",
     label: "Choose Email Template",
     component: ChooseEmailTemplateStep,
   },
   {
+    field: "mailingAccount",
+    label: "Choose Mailing Account",
+    component: ChooseMailingAccountStep,
+  },
+  {
+    field: "recipientGroup",
     label: "Choose Recipients Group",
     component: ChooseRecipientGroupStep,
   },

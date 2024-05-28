@@ -79,18 +79,12 @@ export const SendEmailPage = () => {
   const [currentComponent, setCurrentComponent] =
     React.useState<SendEmailStep>();
 
-  const MapStepToTargetItem = (step: number) => {
-    if (step === 0) {
-      return "mailingAccount";
-    } else if (step === 1) {
-      return "emailTemplate";
-    } else {
-      return "recipientGroup";
-    }
+  const MapStepToField = (step: number) => {
+    return SendEmailSteps[step].field;
   };
 
   const isNextStepAvailable = (model: SendEmailModel) => {
-    const targetItem = model[MapStepToTargetItem(currentStep)];
+    const targetItem = model[MapStepToField(currentStep)];
 
     return !!targetItem;
   };
@@ -104,8 +98,8 @@ export const SendEmailPage = () => {
   const handlePreviousStep = (model: SendEmailModel) => {
     const current = currentStep;
     const previous = current - 1;
-    model[MapStepToTargetItem(current)] = undefined;
-    model[MapStepToTargetItem(previous)] = undefined;
+    model[MapStepToField(current)] = undefined;
+    model[MapStepToField(previous)] = undefined;
 
     setCurrentStep(previous);
   };
@@ -144,7 +138,7 @@ export const SendEmailPage = () => {
 
   useEffect(() => {
     setCurrentComponent(SendEmailSteps[currentStep]);
-    setIsLastStep(currentStep === 2);
+    setIsLastStep(currentStep === SendEmailSteps.length - 1);
   }, [currentStep]);
 
   return (
@@ -252,7 +246,7 @@ export const SendEmailPage = () => {
               variant="outlined"
               size="large"
               className="rounded-4 h-100 me-3"
-              disabled={currentStep === 0}
+              disabled={currentStep === 0 || helpers.isSubmitting}
             >
               {"Previous Step"}
             </Button>
