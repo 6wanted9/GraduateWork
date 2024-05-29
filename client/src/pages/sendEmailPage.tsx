@@ -10,7 +10,7 @@ import {
   Stepper,
   Typography,
 } from "@mui/material";
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Api from "../utils/Api";
 import { apiUrls } from "../constants/api";
@@ -74,6 +74,7 @@ const ValidationSchema = Yup.object().shape({
 
 export const SendEmailPage = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [currentComponent, setCurrentComponent] =
@@ -115,6 +116,7 @@ export const SendEmailPage = () => {
     helpers: FormikHelpers<SendEmailModel>,
   ) => {
     try {
+      setIsLoading(true);
       const mailingAccountId = request.mailingAccount?.id;
       const emailTemplateId = request.emailTemplate?.id;
       const recipientGroupId = request.recipientGroup?.id;
@@ -128,7 +130,7 @@ export const SendEmailPage = () => {
         recipientGroupId,
       });
 
-      toast.success(`Email was successfully sent.`);
+      toast.success(`Email was sent successfully!`);
 
       return navigate(routePaths.emailTemplates.path);
     } catch (e) {
@@ -147,125 +149,135 @@ export const SendEmailPage = () => {
       validationSchema={ValidationSchema}
       onSubmit={onSubmit}
     >
-      {(helpers) => (
-        <Form className="d-flex flex-column rounded-4 h-100">
-          <Box className="d-flex flex-row rounded-4 h-100">
-            <Box className="d-flex flex-column rounded-4 h-100 w-50 me-3">
-              <Box
-                className={`${baseClass} flex-column w-100 mb-3`}
-                sx={{ height: "10%" }}
-              >
-                <Stepper activeStep={currentStep}>
-                  {SendEmailSteps.map((step) => (
-                    <Step key={step.label}>
-                      <StepLabel>
-                        <Typography fontSize={10} variant="overline">
-                          {step.label}
-                        </Typography>
-                      </StepLabel>
-                    </Step>
-                  ))}
-                </Stepper>
+      {(helpers) =>
+        isLoading ? (
+          <div className="d-flex flex-column justify-content-center align-items-center rounded-4">
+            <CircularProgress />
+          </div>
+        ) : (
+          <Form className="d-flex flex-column rounded-4 h-100">
+            <Box className="d-flex flex-row rounded-4 h-100">
+              <Box className="d-flex flex-column rounded-4 h-100 w-50 me-3">
+                <Box
+                  className={`${baseClass} flex-column w-100 mb-3`}
+                  sx={{ height: "10%" }}
+                >
+                  <Stepper activeStep={currentStep}>
+                    {SendEmailSteps.map((step) => (
+                      <Step key={step.label}>
+                        <StepLabel>
+                          <Typography fontSize={10} variant="overline">
+                            {step.label}
+                          </Typography>
+                        </StepLabel>
+                      </Step>
+                    ))}
+                  </Stepper>
+                </Box>
+                <Box
+                  className={`${baseClass} flex-column overflow-auto`}
+                  sx={{
+                    height: "calc(90% - 1rem)",
+                    backgroundColor: "whitesmoke",
+                  }}
+                >
+                  {!!currentComponent ? (
+                    <currentComponent.component
+                      setValue={getValueSetter(helpers)}
+                    />
+                  ) : (
+                    <CircularProgress />
+                  )}
+                </Box>
               </Box>
-              <Box
-                className={`${baseClass} flex-column overflow-auto`}
-                sx={{
-                  height: "calc(90% - 1rem)",
-                  backgroundColor: "whitesmoke",
-                }}
-              >
-                {!!currentComponent ? (
-                  <currentComponent.component
-                    setValue={getValueSetter(helpers)}
-                  />
-                ) : (
-                  <CircularProgress />
-                )}
-              </Box>
-            </Box>
-            <Box className="d-flex flex-column h-100 w-50 rounded-4">
-              <Box
-                className={`${baseClass} flex-row mb-3`}
-                sx={{ height: "10%" }}
-              >
-                {getComponentWithBadge(
-                  "Sender",
-                  <Typography variant="overline">
-                    {!!helpers.values.mailingAccount?.email
-                      ? helpers.values.mailingAccount.email
-                      : "Complete first step to see..."}
-                  </Typography>,
-                  true,
-                )}
-                {getComponentWithBadge(
-                  "Recipients",
-                  !!helpers.values.recipientGroup?.recipients ? (
-                    <Box
-                      className={`d-flex align-items-center flex-row h-100 w-100 overflow-scroll`}
-                    >
-                      {helpers.values.recipientGroup.recipients.map(
-                        (recipient, index) => (
-                          <Chip className="m-1" key={index} label={recipient} />
-                        ),
-                      )}
-                    </Box>
+              <Box className="d-flex flex-column h-100 w-50 rounded-4">
+                <Box
+                  className={`${baseClass} flex-row mb-3`}
+                  sx={{ height: "10%" }}
+                >
+                  {getComponentWithBadge(
+                    "Sender",
+                    <Typography variant="overline">
+                      {!!helpers.values.mailingAccount?.email
+                        ? helpers.values.mailingAccount.email
+                        : "Complete first step to see..."}
+                    </Typography>,
+                    true,
+                  )}
+                  {getComponentWithBadge(
+                    "Recipients",
+                    !!helpers.values.recipientGroup?.recipients ? (
+                      <Box
+                        className={`d-flex align-items-center flex-row h-100 w-100 overflow-scroll`}
+                      >
+                        {helpers.values.recipientGroup.recipients.map(
+                          (recipient, index) => (
+                            <Chip
+                              className="m-1"
+                              key={index}
+                              label={recipient}
+                            />
+                          ),
+                        )}
+                      </Box>
+                    ) : (
+                      <Typography variant="overline">
+                        Complete last step to see...
+                      </Typography>
+                    ),
+                  )}
+                </Box>
+                <Box
+                  className={`${baseClass} flex-column overflow-auto`}
+                  sx={{
+                    height: "calc(90% - 1rem)",
+                    backgroundColor: "whitesmoke",
+                  }}
+                >
+                  {!!helpers.values.emailTemplate?.content ? (
+                    <iframe
+                      className="w-100 h-100"
+                      srcDoc={helpers.values.emailTemplate.content}
+                    />
                   ) : (
                     <Typography variant="overline">
-                      Complete last step to see...
+                      Here will be displayed email's content.
                     </Typography>
-                  ),
-                )}
-              </Box>
-              <Box
-                className={`${baseClass} flex-column overflow-auto`}
-                sx={{
-                  height: "calc(90% - 1rem)",
-                  backgroundColor: "whitesmoke",
-                }}
-              >
-                {!!helpers.values.emailTemplate?.content ? (
-                  <iframe
-                    className="w-100 h-100"
-                    srcDoc={helpers.values.emailTemplate.content}
-                  />
-                ) : (
-                  <Typography variant="overline">
-                    Here will be displayed email's content.
-                  </Typography>
-                )}
+                  )}
+                </Box>
               </Box>
             </Box>
-          </Box>
-          <Box
-            className={`${baseClass} flex-row my-3 rounded-4`}
-            sx={{ height: "calc(10% - 2rem)" }}
-          >
-            <Button
-              onClick={() => handlePreviousStep(helpers.values)}
-              fullWidth
-              variant="outlined"
-              size="large"
-              className="rounded-4 h-100 me-3"
-              disabled={currentStep === 0 || helpers.isSubmitting}
+            <Box
+              className={`${baseClass} flex-row my-3 rounded-4`}
+              sx={{ height: "calc(10% - 2rem)" }}
             >
-              {"Previous Step"}
-            </Button>
-            <Button
-              onClick={handleNextStep}
-              disabled={
-                helpers.isSubmitting || !isNextStepAvailable(helpers.values)
-              }
-              fullWidth
-              variant="outlined"
-              size="large"
-              type={isLastStep ? "submit" : "button"}
-              className="rounded-4 h-100"
-            >
-              {isLastStep ? "Submit" : "Next Step"}
-            </Button>
-          </Box>
-        </Form>
-      )}
+              <Button
+                onClick={() => handlePreviousStep(helpers.values)}
+                fullWidth
+                variant="outlined"
+                size="large"
+                className="rounded-4 h-100 me-3"
+                disabled={currentStep === 0 || helpers.isSubmitting}
+              >
+                {"Previous Step"}
+              </Button>
+              <Button
+                onClick={handleNextStep}
+                disabled={
+                  helpers.isSubmitting || !isNextStepAvailable(helpers.values)
+                }
+                fullWidth
+                variant="outlined"
+                size="large"
+                type={isLastStep ? "submit" : "button"}
+                className="rounded-4 h-100"
+              >
+                {isLastStep ? "Submit" : "Next Step"}
+              </Button>
+            </Box>
+          </Form>
+        )
+      }
     </Formik>
   );
 };
