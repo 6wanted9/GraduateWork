@@ -7,6 +7,7 @@ import { CircularProgress } from "@mui/material";
 import List from "@mui/material/List";
 import { RecipientGroupViewModel } from "../../dataModels/recipientGroups/recipientGroupViewModel";
 import { RecipientGroupItem } from "../recipientGroups/recipientGroupItem";
+import { ErrorMessages } from "../../constants/errorMessages";
 
 export const ChooseRecipientGroupStep = (props: SendEmailProps) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,7 +26,7 @@ export const ChooseRecipientGroupStep = (props: SendEmailProps) => {
 
       setRecipientGroups(groups);
     } catch (e) {
-      toast.error("Error occurred.");
+      toast.error(ErrorMessages.DefaultError);
     } finally {
       setIsLoading(false);
     }

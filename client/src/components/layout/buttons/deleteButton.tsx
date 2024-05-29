@@ -28,7 +28,7 @@ export const DeleteButton = <T extends EntityViewModel>(props: Props<T>) => {
 
       toast.success("Operation was completed successfully.");
     } catch (e) {
-      toast.error("Something went wrong");
+      toast.error(e);
     }
   };
 

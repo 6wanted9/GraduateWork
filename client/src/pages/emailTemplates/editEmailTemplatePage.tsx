@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { EmailTemplateViewModel } from "../../dataModels/emailTemplates/emailTemplateViewModel";
 import { toast } from "react-toastify";
 import { CircularProgress, Typography } from "@mui/material";
+import { ErrorMessages } from "../../constants/errorMessages";
 
 export const EditEmailTemplatePage = () => {
   const { emailTemplateId } = useParams<{ emailTemplateId: string }>();
@@ -19,7 +20,7 @@ export const EditEmailTemplatePage = () => {
         );
         setEmailTemplate(emailTemplate);
       } catch (e) {
-        toast.error("Error occurred");
+        toast.error(ErrorMessages.DefaultError);
       }
     }
   };

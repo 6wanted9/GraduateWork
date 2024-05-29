@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 import List from "@mui/material/List";
 import { EmailTemplateItem } from "../emailTemplates/emailTemplateItem";
+import { ErrorMessages } from "../../constants/errorMessages";
 
 export const ChooseEmailTemplateStep = (props: SendEmailProps) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,7 +27,7 @@ export const ChooseEmailTemplateStep = (props: SendEmailProps) => {
 
       setEmailTemplates(templates);
     } catch (e) {
-      toast.error("Error occurred.");
+      toast.error(ErrorMessages.DefaultError);
     } finally {
       setIsLoading(false);
     }

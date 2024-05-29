@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-  CodeResponse,
-  googleLogout,
-  useGoogleLogin,
-} from "@react-oauth/google";
+import { CodeResponse, useGoogleLogin } from "@react-oauth/google";
 import Api from "../../utils/Api";
 import { apiUrls } from "../../constants/api";
 import { Button } from "@mui/material";
 import { toast } from "react-toastify";
+import { ErrorMessages } from "../../constants/errorMessages";
 
 interface Props {
   refetchMailingAccounts: () => Promise<void>;
@@ -33,7 +30,7 @@ export const AddMailingAccountComponent = (props: Props) => {
 
       await props.refetchMailingAccounts();
     } catch (e) {
-      toast.error("Something went wrong.");
+      toast.error(ErrorMessages.DefaultError);
     }
   };
 
@@ -42,10 +39,6 @@ export const AddMailingAccountComponent = (props: Props) => {
       createMailingAccount(tokenResponse.code);
     }
   }, [tokenResponse]);
-
-  const logOut = () => {
-    googleLogout();
-  };
 
   return <Button onClick={() => login()}>ADD AN ACCOUNT</Button>;
 };

@@ -6,6 +6,7 @@ import { apiUrls } from "../../constants/api";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 import { SendEmailProps } from "../../constants/sendEmail/sendEmailProps";
+import { ErrorMessages } from "../../constants/errorMessages";
 
 export const ChooseMailingAccountStep = (props: SendEmailProps) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,7 +22,7 @@ export const ChooseMailingAccountStep = (props: SendEmailProps) => {
       );
       setMailingAccounts(accounts);
     } catch (e) {
-      toast.error("Some error");
+      toast.error(ErrorMessages.DefaultError);
     } finally {
       setIsLoading(false);
     }

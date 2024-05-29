@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { EmailTemplateViewModel } from "../../dataModels/emailTemplates/emailTemplateViewModel";
 import { EmailTemplateItem } from "./emailTemplateItem";
 import List from "@mui/material/List";
+import { ErrorMessages } from "../../constants/errorMessages";
 
 export const EmailTemplatesList = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,7 +27,7 @@ export const EmailTemplatesList = () => {
 
       setEmailTemplates(templates);
     } catch (e) {
-      toast.error("Error occurred.");
+      toast.error(ErrorMessages.DefaultError);
     } finally {
       setIsLoading(false);
     }

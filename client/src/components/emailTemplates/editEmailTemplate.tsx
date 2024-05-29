@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { routePaths } from "../../constants/routePaths";
 import { Editor } from "@monaco-editor/react";
 import { styled } from "@mui/material/styles";
+import { ErrorMessages } from "../../constants/errorMessages";
 
 interface Props {
   emailTemplate?: EmailTemplateViewModel;
@@ -42,7 +43,7 @@ export const EditEmailTemplate = (props: Props) => {
   ) => {
     try {
       if (!request.content) {
-        return toast.error("Content cannot be empty.");
+        return toast.error(ErrorMessages.DefaultError);
       }
 
       const editingExistingEntity = !!emailTemplate;

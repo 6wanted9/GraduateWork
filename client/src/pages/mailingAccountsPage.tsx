@@ -6,6 +6,7 @@ import Api from "../utils/Api";
 import { apiUrls } from "../constants/api";
 import { toast } from "react-toastify";
 import { Box, CircularProgress, Typography } from "@mui/material";
+import { ErrorMessages } from "../constants/errorMessages";
 
 export const MailingAccountsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,7 +22,7 @@ export const MailingAccountsPage = () => {
       );
       setMailingAccounts(accounts);
     } catch (e) {
-      toast.error("Some error");
+      toast.error(ErrorMessages.DefaultError;
     } finally {
       setIsLoading(false);
     }
