@@ -9,7 +9,6 @@ export const routePaths = {
   },
   recipientGroups: {
     path: "/recipients-groups",
-    edit: `/recipients-groups/edit/:recipientGroupId`,
   },
   mailingAccounts: {
     path: "/mailing-accounts",

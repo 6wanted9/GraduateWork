@@ -22,6 +22,7 @@ import { SendEmailStep } from "../constants/sendEmail/sendEmailStep";
 import { MailingAccountViewModel } from "../dataModels/mailingAccounts/mailingAccountViewModel";
 import { EmailTemplateViewModel } from "../dataModels/emailTemplates/emailTemplateViewModel";
 import { RecipientGroupViewModel } from "../dataModels/recipientGroups/recipientGroupViewModel";
+import { SendEmailRequest } from "../dataModels/sendEmailRequest";
 
 interface SendEmailModel {
   mailingAccount?: MailingAccountViewModel;
@@ -124,11 +125,13 @@ export const SendEmailPage = () => {
         return toast.error("Not all data filled.");
       }
 
-      await Api.post(apiUrls.emailManagement.send, {
+      const sendEmailRequest: SendEmailRequest = {
         mailingAccountId,
         emailTemplateId,
         recipientGroupId,
-      });
+      };
+
+      await Api.post(apiUrls.emailManagement.send, sendEmailRequest);
 
       toast.success(`Email was sent successfully!`);
 

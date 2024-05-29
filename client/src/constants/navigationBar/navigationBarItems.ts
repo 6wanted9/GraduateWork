@@ -19,7 +19,7 @@ export const NavigationBarItems: Array<NavigationBarItem> = [
     icon: AutoAwesomeMosaic,
   },
   {
-    name: "Users Groups",
+    name: "Recipient Groups",
     path: routePaths.recipientGroups.path,
     icon: Groups,
   },

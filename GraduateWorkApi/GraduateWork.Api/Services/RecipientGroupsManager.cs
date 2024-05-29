@@ -10,7 +10,7 @@ internal class RecipientGroupsManager : IRecipientGroupsManager
 {
     private const string RecipientsDelimiter = ";";
     private const string NotFoundMessage = "Not found.";
-    private const string InvalidRecipientMessage = "There's invalid recipient address amoing provided list.";
+    private const string InvalidRecipientMessage = "There's invalid recipient address among provided list.";
 
     private readonly IUserDependentRepository<RecipientGroup> _recipientGroupsRepository;
 
@@ -53,6 +53,6 @@ internal class RecipientGroupsManager : IRecipientGroupsManager
 
     private static bool ValidateRecipients(IReadOnlyCollection<string> recipients)
     {
-        return recipients.Any(recipient => !MailAddress.TryCreate(recipient, out _));
+        return recipients.Any() && recipients.All(recipient => MailAddress.TryCreate(recipient, out _));
     }
 }

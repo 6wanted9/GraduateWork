@@ -18,7 +18,7 @@ interface Props {
     React.SetStateAction<RecipientGroupViewModel | undefined>
   >;
 }
-export const RecipientGroupItem = (props: Props) => {
+export const RecipientGroupDuringSendEmailItem = (props: Props) => {
   const recipientGroupsListCallback = props.recipientGroupsListCallback;
 
   return (
@@ -32,7 +32,7 @@ export const RecipientGroupItem = (props: Props) => {
         <Box className="d-flex flex-row">
           <EditButton
             entityId={props.group.id}
-            editPagePath={routePaths.recipientGroups.edit}
+            editPagePath={routePaths.recipientGroups.path}
           />
           <DeleteButton
             entityId={props.group.id}

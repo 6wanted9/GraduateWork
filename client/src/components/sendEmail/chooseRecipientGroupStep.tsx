@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 import List from "@mui/material/List";
 import { RecipientGroupViewModel } from "../../dataModels/recipientGroups/recipientGroupViewModel";
-import { RecipientGroupItem } from "../recipientGroups/recipientGroupItem";
+import { RecipientGroupDuringSendEmailItem } from "../recipientGroups/recipientGroupDuringSendEmailItem";
 import { ErrorMessages } from "../../constants/errorMessages";
 
 export const ChooseRecipientGroupStep = (props: SendEmailProps) => {
@@ -51,7 +51,7 @@ export const ChooseRecipientGroupStep = (props: SendEmailProps) => {
       sx={{ backgroundColor: "whitesmoke" }}
     >
       {recipientGroups.map((recipientGroup, index) => (
-        <RecipientGroupItem
+        <RecipientGroupDuringSendEmailItem
           key={index}
           group={recipientGroup}
           selectedGroup={selectedGroup}
