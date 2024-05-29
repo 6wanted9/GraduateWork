@@ -5,6 +5,7 @@ import { EntityViewModel } from "../../../dataModels/entityViewModel";
 import { toast } from "react-toastify";
 import Api from "../../../utils/Api";
 import { AreYouSurePopUp } from "../areYouSurePopUp";
+import { ErrorMessages } from "../../../constants/errorMessages";
 
 interface Props<T extends EntityViewModel> {
   entityId: string;
@@ -28,7 +29,7 @@ export const DeleteButton = <T extends EntityViewModel>(props: Props<T>) => {
 
       toast.success("Operation was completed successfully.");
     } catch (e) {
-      toast.error(e);
+      toast.error(ErrorMessages.DefaultError);
     }
   };
 

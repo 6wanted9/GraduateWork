@@ -22,7 +22,7 @@ export const MailingAccountsPage = () => {
       );
       setMailingAccounts(accounts);
     } catch (e) {
-      toast.error(ErrorMessages.DefaultError;
+      toast.error(ErrorMessages.DefaultError);
     } finally {
       setIsLoading(false);
     }

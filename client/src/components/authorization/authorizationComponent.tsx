@@ -10,6 +10,7 @@ import { TextField } from "formik-mui";
 import { Button } from "@mui/material";
 import * as Yup from "yup";
 import { AuthResponseModel } from "../../dataModels/authResponseModel";
+import { ErrorMessages } from "../../constants/errorMessages";
 
 const ValidationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -31,7 +32,7 @@ export const AuthorizationComponent = () => {
       AuthSession.login(token.accessToken);
       toast.success("Successfully logged in.");
     } catch (e) {
-      toast.error(e);
+      toast.error(ErrorMessages.DefaultError);
       helpers.setSubmitting(false);
     }
   };
