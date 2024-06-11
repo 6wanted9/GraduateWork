@@ -43,7 +43,7 @@ export const EditEmailTemplate = (props: Props) => {
   ) => {
     try {
       if (!request.content) {
-        return toast.error(ErrorMessages.DefaultError);
+        return toast.error("Email template's content cannot be empty.");
       }
 
       const editingExistingEntity = !!emailTemplate;
